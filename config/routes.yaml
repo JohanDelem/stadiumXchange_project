@@ -11,3 +11,7 @@ HomePage:
 login:
     path: /login
     controller: App\Controller\LoginController::index
+
+register:
+    path: /register
+    controller: App\Controller\RegisterController::index

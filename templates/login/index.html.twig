@@ -9,17 +9,18 @@
 {% block body %}
 <div class="container">
     <!-- Header avec le logo -->
-  <div class="header">
-    <div class="logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
-    </div>
-    </div>
+    <header>
+        <div class="logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
+        </div>
+    </header>
 
     <!-- Formulaire de login -->
     <div class="login-container">
         <div class="login-form">
             <h1>Je me connecte</h1>
-            <p>Pas encore de compte? <a href="#" class="create-account">Créer un compte</a></p>
+            <p>Pas encore de compte? <a href="{{ path('register') }}" class="create-account-link">Créer un compte</a></p>
+
 
             <form action="{{ path('login') }}" method="post">
                 <div class="form-group">
