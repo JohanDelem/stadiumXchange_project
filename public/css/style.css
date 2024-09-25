@@ -12,7 +12,7 @@ body {
 .container {
     width: auto;
     margin: 0 auto;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 
 .header {
@@ -21,13 +21,26 @@ body {
     align-items: center;
     padding: 20px;
     background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
+body {
+    padding-top: 60px; /* Ajustez cette valeur selon la hauteur de votre header */
+}
 .sell-ticket, .login {
     font-size: 16px;
     font-weight: bold;
     color: yellow;
     cursor: pointer;
+    text-decoration: none; 
+}
+
+.sell-ticket:hover, .login:hover {
+    text-decoration: underline; 
 }
 
 .logo img {
@@ -48,9 +61,24 @@ body {
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-    
+    transition: transform 0.3s ease; /* Ajoute une transition fluide */
+}
+
+.ticket:hover {
+    transform: scale(1.1); /* Grossit le ticket de 10% au survol */
 }
 
 .ticket h2, .ticket p {
     margin: 0;
+}
+
+/* Styles pour les liens */
+a {
+    color: inherit; /* Garde la couleur d'origine de l'élément parent */
+    text-decoration: none; /* Enlève le soulignement par défaut */
+}
+
+a:hover {
+    color: #ffc107; /* Optionnel : Change la couleur au survol (à adapter selon ton jeu de couleurs) */
+    text-decoration: underline; /* Optionnel : ajoute un soulignement au survol */
 }
