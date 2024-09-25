@@ -13,17 +13,17 @@
     </div>
 
     <div class="tickets">
-        <div class="ticket">
-            <h2>Game: X - X</h2>
-            <p>Date: XX-XXXX</p>
-            <p>Price: XX</p>
-        </div>
-        <div class="ticket">
-            <h2>Game: X - X</h2>
-            <p>Date: XX-XXXX</p>
-            <p>Price: XX</p>
-        </div>
-        <!-- Recréer la structure des tickets restants -->
+        {% for ticket in tickets %}
+            <div class="ticket">
+                <h2>{{ ticket.home_team }} vs {{ ticket.away_team }}</h2>
+                <p>Date: {{ ticket.date_time }}</p>
+                <p>Stade: {{ ticket.stadium }}</p>
+                <p>Price: {{ ticket.price }}€</p>
+            </div>
+        {% endfor %}
+    </div>
+
+        
     </div>
 </div>
 {% endblock %}
