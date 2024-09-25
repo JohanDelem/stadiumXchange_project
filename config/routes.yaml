@@ -5,5 +5,9 @@ controllers:
     type: attribute
 
 HomePage:
-  path: /
-  controller: App\Controller\HomePageController::index
+    path: /
+    controller: App\Controller\HomePageController::index
+
+login:
+    path: /login
+    controller: App\Controller\LoginController::index

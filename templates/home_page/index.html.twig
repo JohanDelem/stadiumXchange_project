@@ -4,13 +4,16 @@
 
 {% block body %}
 <div class="container">
-    <div class="header">
-        <div class="sell-ticket">VENDRE MON TICKET</div>
-        <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
-        </div>
-        <div class="login">M'IDENTIFIER</div>
+<div class="header">
+    <div class="sell-ticket">VENDRE MON TICKET</div>
+    <div class="logo">
+        <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
     </div>
+    <div class="login">
+        <a href="{{ path('login') }}">M'IDENTIFIER</a>
+    </div>
+</div>
+
 
     <div class="tickets">
         {% for ticket in tickets %}
