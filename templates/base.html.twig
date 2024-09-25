@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Stadium Xchange{% endblock %}</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}"> <!-- Lien vers ton fichier CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
+     {% block stylesheets %}
+    
+    {% endblock %}
+    <!-- Lien vers ton fichier CSS -->
 </head>
 <body>
     <header>
@@ -12,6 +16,8 @@
     </header>
 
     <main>
+   
+
         {% block body %}{% endblock %}
     </main>
 

@@ -1,7 +1,7 @@
 /* Style global */
 body {
     font-family: Arial, sans-serif;
-    background-image: url('{{ asset('images/background_image.png') }}');
+    background-image: url('../images/background_image.PNG');
     background-size: cover;
     background-position: center;
     color: white;
@@ -19,8 +19,9 @@ body {
 
 .header img {
     max-width: 150px; /* Ajuste la taille du logo */
+    display: block;
+    margin: 0 auto;
 }
-
 /* Container pour centrer le formulaire */
 .container {
     display: flex;
