@@ -36,7 +36,7 @@ class Ticket
     private ?User $owner = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $userIdSeller = null;
 
     public function getId(): ?int
