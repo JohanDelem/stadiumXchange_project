@@ -32,6 +32,13 @@ class Ticket
     #[ORM\Column(length: 255)]
     private ?string $state = null;
 
+    #[ORM\ManyToOne]
+    private ?User $owner = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userIdSeller = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +112,30 @@ class Ticket
     public function setState(string $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getUserIdSeller(): ?User
+    {
+        return $this->userIdSeller;
+    }
+
+    public function setUserIdSeller(?User $userIdSeller): static
+    {
+        $this->userIdSeller = $userIdSeller;
 
         return $this;
     }

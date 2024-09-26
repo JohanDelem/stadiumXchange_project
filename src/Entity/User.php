@@ -25,6 +25,9 @@ class User
     #[ORM\Column(length: 50)]
     private ?string $password = null;
 
+    #[ORM\ManyToOne(inversedBy: 'userId')]
+    private ?CardDetails $card = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class User
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getCard(): ?CardDetails
+    {
+        return $this->card;
+    }
+
+    public function setCard(?CardDetails $card): static
+    {
+        $this->card = $card;
 
         return $this;
     }

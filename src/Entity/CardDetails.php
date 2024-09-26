@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CardDetailsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,17 @@ class CardDetails
 
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'card')]
+    private Collection $userId;
+
+    public function __construct()
+    {
+        $this->userId = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +103,36 @@ class CardDetails
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUserId(): Collection
+    {
+        return $this->userId;
+    }
+
+    public function addUserId(User $userId): static
+    {
+        if (!$this->userId->contains($userId)) {
+            $this->userId->add($userId);
+            $userId->setCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserId(User $userId): static
+    {
+        if ($this->userId->removeElement($userId)) {
+            // set the owning side to null (unless already changed)
+            if ($userId->getCard() === $this) {
+                $userId->setCard(null);
+            }
+        }
 
         return $this;
     }
