@@ -17,13 +17,13 @@
 
     <div class="tickets">
         {% for ticket in tickets %}
-        <div class="ticket">
+        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}"><div class="ticket">
             <h2>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</h2>
             <p>Date et heure : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
             <p>Stade : {{ ticket.stadium }}</p>
             <p>Prix : {{ ticket.price }} €</p>
             {# <p>État : {{ ticket.state }}</p> #}
-        </div>
+        </div></a>
     {% else %}
         <p>Aucun ticket disponible pour le moment.</p>
     {% endfor %}
