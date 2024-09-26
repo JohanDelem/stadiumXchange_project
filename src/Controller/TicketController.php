@@ -32,7 +32,7 @@ final class TicketController extends AbstractController{
             $entityManager->persist($ticket);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('index.html.twig', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('ticket/new.html.twig', [
