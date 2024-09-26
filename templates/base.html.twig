@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Stadium Xchange{% endblock %}</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}"> <!-- Lien vers ton fichier CSS -->
+    <!-- Lien vers fichier CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% block stylesheets %}{% endblock %} 
+    
 </head>
 <body>
     <header>
-        <!-- Navbar ou tout autre contenu commun -->
+        <!-- Navbar  -->
     </header>
 
     <main>
