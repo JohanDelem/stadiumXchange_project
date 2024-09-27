@@ -17,8 +17,8 @@ body {
 
 /* Header plein écran avec fond noir */
 .header {
-   background-color: black;
-    width: 100%;
+    background-color: black;
+    width: auto;
     padding: 10px 0;
     text-align: center;
 }

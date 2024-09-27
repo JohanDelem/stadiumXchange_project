@@ -10,14 +10,14 @@ body {
 }
 
 /* Header contenant le logo */
-.header {
+.navbar {
     background-color: black;
-    width: 100%;
+    width: auto;
     padding: 10px 0;
     text-align: center;
 }
 
-.header img {
+.navbar img {
     max-width: 150px; /* Ajuste la taille du logo */
 }
 
