@@ -10,8 +10,8 @@ HomePage:
 
 login:
     path: /login
-    controller: App\Controller\LoginController::index
+    controller: App\Controller\SecurityController::index
 
 register:
     path: /register
-    controller: App\Controller\RegisterController::index
+    controller: App\Controller\RegistrationController::index
