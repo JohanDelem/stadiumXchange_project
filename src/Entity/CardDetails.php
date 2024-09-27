@@ -31,15 +31,17 @@ class CardDetails
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'card')]
-    private Collection $userId;
+    #[ORM\ManyToOne(inversedBy: 'cardDetails')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+  
+ 
+   
 
     public function __construct()
     {
-        $this->userId = new ArrayCollection();
+     
     }
 
     public function getId(): ?int
@@ -107,33 +109,21 @@ class CardDetails
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUserId(): Collection
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function addUserId(User $userId): static
+    public function setUser(?User $user): static
     {
-        if (!$this->userId->contains($userId)) {
-            $this->userId->add($userId);
-            $userId->setCard($this);
-        }
+        $this->user = $user;
 
         return $this;
     }
 
-    public function removeUserId(User $userId): static
-    {
-        if ($this->userId->removeElement($userId)) {
-            // set the owning side to null (unless already changed)
-            if ($userId->getCard() === $this) {
-                $userId->setCard(null);
-            }
-        }
+   
 
-        return $this;
-    }
+
+
+
 }
