@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Espace{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/myspace.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="personal-space">
+    <header class="personal-header">
+        <div class="welcome-message">Bienvenue, {{ app.user.firstname }} {{ app.user.lastname }} id : {{ app.user.id }}</div>
+        <div class="logo-container">
+            <a href="{{ path('app_home_page') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
+            </a>
+        </div>
+        <a href="{{ path('logout') }}" class="logout-button">Déconnexion</a>
+    </header>
+
+    <main class="main-content">
+    <section class="ticket-section">
+        <div class="ticket-box">
+            <h2>Mes Tickets</h2>
+            {% for ticket in myTickets %}
+                <div class="ticket">
+                    <p>Numéro de ticket : {{ ticket.id }}</p>
+                    <p>Date : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                    <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
+                    <p>Stade : {{ ticket.stadium }}</p>
+                    <p>Statut  : {{ ticket.state }}</p>
+                </div>
+            {% else %}
+                <p>Vous n'avez pas de tickets.</p>
+            {% endfor %}
+        </div>
+        {# <div class="ticket-box">
+            <h2>Mes Tickets en Vente</h2>
+            {% for ticket in myTicketsForSale %}
+                <div class="ticket">
+                    <p>Ticket N° {{ ticket.id }}</p>
+                    <p>Date {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                    <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
+                    <p>Prix : {{ ticket.price }} €</p>
+                </div>
+            {% else %}
+                <p>Vous n'avez pas de tickets en vente.</p>
+            {% endfor %}
+        </div> #}
+        <div class="ticket-box">
+            <h2>Mes Tickets Vendus</h2>
+            {% for ticket in mySoldTickets %}
+                <div class="ticket">
+                    <p>Ticket N° {{ ticket.id }}</p>
+                    <p>Date {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                    <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
+                    <p>Vendu pour : {{ ticket.price }} €</p>
+                </div>
+            {% else %}
+                <p>Vous n'avez pas encore vendu de tickets.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+</div>
+{% endblock %}

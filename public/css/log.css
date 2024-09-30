@@ -17,8 +17,8 @@ body {
 
 /* Header plein écran avec fond noir */
 .header {
-   background-color: black;
-    width: 100%;
+    background-color: black;
+    width: auto;
     padding: 10px 0;
     text-align: center;
 }
@@ -30,11 +30,13 @@ header .logo {
 }
 
 header .logo img {
-    max-width: 150px; /* Ajuste selon la taille de ton logo */
+   
+    width: 200vh;
+  
 }
 
 /* Container pour centrer le formulaire */
-.login-container {
+.log-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,7 +46,7 @@ header .logo img {
 }
 
 /* Formulaire de login */
-.login-form {
+.log-form {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 60px 40px;
     border-radius: 10px;
@@ -53,22 +55,22 @@ header .logo img {
     margin-top: 80px; /* Ajoute de l'espace en haut pour le header fixe */
 }
 
-.login-form h1 {
+.log-form h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
 }
 
-.login-form p {
+.log-form p {
     font-size: 1rem;
     margin-bottom: 30px;
 }
 
-.login-form a.create-account {
+.log-form a.create-account {
     color: #fff;
     text-decoration: underline;
 }
 
-.login-form a.create-account:hover {
+.log-form a.create-account:hover {
     color: #ffc107; /* Couleur au survol */
 }
 

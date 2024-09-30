@@ -1,11 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}New Ticket{% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/log.css') }}">
+{% endblock %}
 {% block body %}
-    <h1>Create new Ticket</h1>
-
+<div class="container">
+    <header>
+<div class="logo">
+    <a href="{{ path('app_home_page') }}">
+        <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
+    </a>
+</div>
+    </header>
+    <div class="log-container">
+     <div class="log-form">
+    <h1>Entrez les informations de votre ticket</h1>
+<div class="form-group">
     {{ include('ticket/_form.html.twig') }}
-
-    <a href="{{ path('app_ticket_index') }}">back to list</a>
+</div>
+    {# <a href="{{ path('app_ticket_index') }}">back to list</a> #}
+          </div>
+     </div>
+    </div>
 {% endblock %}

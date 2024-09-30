@@ -40,7 +40,8 @@ body {
 }
 
 .sell-ticket:hover, .login:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
+   
 }
 
 .logo img {
@@ -51,7 +52,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    margin-top: 50px;
+    margin: 50px;
 }
 
 .ticket {
@@ -70,6 +71,7 @@ body {
 
 .ticket h2, .ticket p {
     margin: 0;
+    color: #555;
 }
 
 /* Styles pour les liens */

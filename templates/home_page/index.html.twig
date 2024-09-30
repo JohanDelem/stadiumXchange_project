@@ -4,29 +4,36 @@
 
 {% block body %}
 <div class="container">
-<div class="header">
-    <div class="sell-ticket">VENDRE MON TICKET</div>
-    <div class="logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
+    <div class="header">
+        <a href="{{ path('app_ticket_new') }}"><div class="sell-ticket">VENDRE MON TICKET</div></a>
+        <div class="logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
+        </div>
+        <div class="login">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path('mySpace') }}">Mon Espace</a> <br><br>
+                <a href="{{ path('logout') }}">Se Déconnecter</a>
+            {% else %}
+                <a href="{{ path('login') }}">Se Connecter</a> <br><br>
+                <a href="{{ path('register') }}">Créer un compte</a>
+            {% endif %}
+        </div>
     </div>
-    <div class="login">
-        <a href="{{ path('login') }}">M'IDENTIFIER</a>
-    </div>
-</div>
-
 
     <div class="tickets">
         {% for ticket in tickets %}
-            <div class="ticket">
-                <h2>{{ ticket.home_team }} vs {{ ticket.away_team }}</h2>
-                <p>Date: {{ ticket.date_time }}</p>
-                <p>Stade: {{ ticket.stadium }}</p>
-                <p>Price: {{ ticket.price }}€</p>
-            </div>
+            <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">
+                <div class="ticket">
+                    <h2>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</h2>
+                    <p>Date et heure : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                    <p>Stade : {{ ticket.stadium }}</p>
+                    <p>Prix : {{ ticket.price }} €</p>
+                    {# <p>État : {{ ticket.state }}</p> #}
+                </div>
+            </a>
+        {% else %}
+            <p>Aucun ticket disponible pour le moment.</p>
         {% endfor %}
-    </div>
-
-        
     </div>
 </div>
 {% endblock %}

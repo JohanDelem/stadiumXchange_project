@@ -22,24 +22,25 @@ final class TicketController extends AbstractController{
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $ticket = new Ticket();
-        $form = $this->createForm(TicketType::class, $ticket);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $ticket = new Ticket();
+    $form = $this->createForm(TicketType::class, $ticket);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($ticket);
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($ticket);
+        $entityManager->flush();
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('ticket/new.html.twig', [
-            'ticket' => $ticket,
-            'form' => $form,
-        ]);
+        // rediriger vers la page d'accueil
+        return $this->redirectToRoute('app_home_page', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->render('ticket/new.html.twig', [
+        'ticket' => $ticket,
+        'form' => $form,
+    ]);
+}
 
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
     public function show(Ticket $ticket): Response
