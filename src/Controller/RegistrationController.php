@@ -26,30 +26,34 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 /** @var string $plainPassword */
                 $plainPassword = $form->get('plainPassword')->getData();
-
+    
                 // encode the plain password
                 $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
+    
                 $entityManager->persist($user);
                 $entityManager->flush();
-
+    
                 $logger->info('User registered successfully', ['email' => $user->getEmail()]);
-
+    
                 // Log the user in
-                return $security->login($user);
+                $security->login($user);
+    
+                // Redirect to homepage 
+                return $this->redirectToRoute('app_home_page');  
+    
             } catch (\Exception $e) {
                 $logger->error('Error during user registration: ' . $e->getMessage());
                 $this->addFlash('error', 'Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.');
             }
         }
-
+    
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-    }
+    } 
 }

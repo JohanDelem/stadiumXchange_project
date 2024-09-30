@@ -12,6 +12,14 @@ login:
     path: /login
     controller: App\Controller\SecurityController::index
 
+logout:
+    path: /logout
+    controller: App\Controller\SecurityController::index
+
 register:
     path: /register
     controller: App\Controller\RegistrationController::index
+
+mySpace:
+    path: /my_space
+    controller: App\Controller\MySpaceController::index

@@ -41,9 +41,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: CardDetails::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $cardDetails;
 
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lastname = null;
+
+    /**
+     * @var Collection<int, Ticket>
+     */
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Ticket::class)]
+    private Collection $ownedTickets;
+
+    /**
+     * @var Collection<int, Ticket>
+     */
+    #[ORM\OneToMany(mappedBy: 'userIdSeller', targetEntity: Ticket::class)]
+    private Collection $sellingTickets;
+
     public function __construct()
     {
         $this->cardDetails = new ArrayCollection();
+        $this->ownedTickets = new ArrayCollection();
+        $this->sellingTickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +164,90 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($cardDetail->getUser() === $this) {
                 $cardDetail->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): static
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getOwnedTickets(): Collection
+    {
+        return $this->ownedTickets;
+    }
+
+    public function addOwnedTicket(Ticket $ticket): static
+    {
+        if (!$this->ownedTickets->contains($ticket)) {
+            $this->ownedTickets->add($ticket);
+            $ticket->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnedTicket(Ticket $ticket): static
+    {
+        if ($this->ownedTickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getOwner() === $this) {
+                $ticket->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getSellingTickets(): Collection
+    {
+        return $this->sellingTickets;
+    }
+
+    public function addSellingTicket(Ticket $ticket): static
+    {
+        if (!$this->sellingTickets->contains($ticket)) {
+            $this->sellingTickets->add($ticket);
+            $ticket->setUserIdSeller($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSellingTicket(Ticket $ticket): static
+    {
+        if ($this->sellingTickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getUserIdSeller() === $this) {
+                $ticket->setUserIdSeller(null);
             }
         }
 

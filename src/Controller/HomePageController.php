@@ -9,20 +9,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomePageController extends AbstractController
 {
-    #[Route('/home/page', name: 'app_home_page')]
+    #[Route('/', name: 'app_home_page')]
     public function index(TicketRepository $ticketRepository): Response
     {
-       
-        $tickets = $ticketRepository->findAll();
-
-        // Envoie le tableau de tickets à la vue
+         $tickets = $ticketRepository->findTicketsEnVente();
+        // $tickets = $ticketRepository->findAll();
         return $this->render('home_page/index.html.twig', [
             'tickets' => $tickets
         ]);
     }
 }
-
-
 /*
 <?php
 
