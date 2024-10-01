@@ -14,59 +14,60 @@ class Selling
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Ticket::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $ticketId = null;
+    private ?Ticket $ticket = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $userIdPurchaser = null;
+    private ?User $purchaser = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: CardDetails::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?CardDetails $cardDetailId = null;
+    private ?CardDetails $cardDetail = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'sellings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $seller = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTicketId(): ?User
+    public function getTicket(): ?Ticket
     {
-        return $this->ticketId;
+        return $this->ticket;
     }
 
-    public function setTicketId(?User $ticketId): static
+    public function setTicket(?Ticket $ticket): static
     {
-        $this->ticketId = $ticketId;
-
+        $this->ticket = $ticket;
         return $this;
     }
 
-    public function getUserIdPurchaser(): ?User
+    public function getPurchaser(): ?User
     {
-        return $this->userIdPurchaser;
+        return $this->purchaser;
     }
 
-    public function setUserIdPurchaser(?User $userIdPurchaser): static
+    public function setPurchaser(?User $purchaser): static
     {
-        $this->userIdPurchaser = $userIdPurchaser;
-
+        $this->purchaser = $purchaser;
         return $this;
     }
 
-    public function getCardDetailId(): ?CardDetails
+    public function getCardDetail(): ?CardDetails
     {
-        return $this->cardDetailId;
+        return $this->cardDetail;
     }
 
-    public function setCardDetailId(?CardDetails $cardDetailId): static
+    public function setCardDetail(?CardDetails $cardDetail): static
     {
-        $this->cardDetailId = $cardDetailId;
-
+        $this->cardDetail = $cardDetail;
         return $this;
     }
 
@@ -78,7 +79,17 @@ class Selling
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+        return $this;
+    }
 
+    public function getSeller(): ?User
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(?User $seller): static
+    {
+        $this->seller = $seller;
         return $this;
     }
 }
