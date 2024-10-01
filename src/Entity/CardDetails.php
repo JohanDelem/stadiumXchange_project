@@ -16,13 +16,13 @@ class CardDetails
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $cardNumber = null;
+    #[ORM\Column(type: "string", length: 16)]
+    private ?string $cardNumber = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $expirationDate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $cryptogram = null;
 
     #[ORM\Column(length: 255)]
@@ -71,7 +71,7 @@ class CardDetails
         return $this->cryptogram;
     }
 
-    public function setCryptogram(int $cryptogram): static
+    public function setCryptogram(?int $cryptogram): static
     {
         $this->cryptogram = $cryptogram;
 

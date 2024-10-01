@@ -24,7 +24,7 @@ class MySpaceController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $myTickets = $ticketRepository->findBy(['owner' => $user]);
+        
         $myTicketsForSale = $ticketRepository->findBy([
             'owner' => $user,
             'state' => 'en vente'
@@ -32,14 +32,17 @@ class MySpaceController extends AbstractController
         $mySoldTickets = $sellingRepository->findBy([
             'seller' => $user,
         ]);
+        $myBoughtTickets = $sellingRepository->findBy([
+            'purchaser' => $user,
+        ]);
 
         // Récupérer les cartes bancaires de l'utilisateur
         $myCards = $cardDetailsRepository->findBy(['user' => $user->getId()]);
 
         return $this->render('my_space/index.html.twig', [
-            'myTickets' => $myTickets,
             'myTicketsForSale' => $myTicketsForSale,
             'mySoldTickets' => $mySoldTickets,
+            'myBoughtTickets' => $myBoughtTickets,
             'myCards' => $myCards,
         ]);
     }
