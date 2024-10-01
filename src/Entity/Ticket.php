@@ -111,7 +111,7 @@ class Ticket
 
     public function setState(string $state): static
     {
-        $this->state = $state;
+        $this->state = $state ?? 'en vente';
 
         return $this;
     }
