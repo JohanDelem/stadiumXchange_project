@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController{
@@ -31,6 +33,15 @@ final class TicketController extends AbstractController{
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           // Récupérer l'id l'utilisateur connecté
+            $user = $this->getUser();
+            // Vérifier si un utilisateur est connecté (déjà le cas normalement!!)
+            if (!$user) {
+                throw new AccessDeniedException('Vous devez être connecté pour ajouter des détails de carte.');
+            }
+
+             // Attribuer l'utilisateur connecté au Ticket
+            $ticket->setOwner($user);
             $ticket->setState('en vente');
 
             $entityManager->persist($ticket);

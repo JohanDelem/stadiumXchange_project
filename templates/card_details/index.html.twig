@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CardDetails index{% endblock %}
+
+{% block body %}
+    <h1>CardDetails index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CardNumber</th>
+                <th>ExpirationDate</th>
+                <th>Cryptogram</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for card_detail in card_details %}
+            <tr>
+                <td>{{ card_detail.id }}</td>
+                <td>{{ card_detail.cardNumber }}</td>
+                <td>{{ card_detail.expirationDate ? card_detail.expirationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ card_detail.cryptogram }}</td>
+                <td>{{ card_detail.firstname }}</td>
+                <td>{{ card_detail.lastname }}</td>
+                <td>
+                    <a href="{{ path('app_card_details_show', {'id': card_detail.id}) }}">show</a>
+                    <a href="{{ path('app_card_details_edit', {'id': card_detail.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_card_details_new') }}">Create new</a>
+{% endblock %}
