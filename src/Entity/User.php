@@ -59,11 +59,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userIdSeller', targetEntity: Ticket::class)]
     private Collection $sellingTickets;
 
+    /**
+     * @var Collection<int, Selling>
+     */
+    #[ORM\OneToMany(targetEntity: Selling::class, mappedBy: 'userIdSeller')]
+    private Collection $sellings;
+
     public function __construct()
     {
         $this->cardDetails = new ArrayCollection();
         $this->ownedTickets = new ArrayCollection();
         $this->sellingTickets = new ArrayCollection();
+        $this->sellings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,6 +255,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($ticket->getUserIdSeller() === $this) {
                 $ticket->setUserIdSeller(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Selling>
+     */
+    public function getSellings(): Collection
+    {
+        return $this->sellings;
+    }
+
+    public function addSelling(Selling $selling): static
+    {
+        if (!$this->sellings->contains($selling)) {
+            $this->sellings->add($selling);
+            $selling->setUserIdSeller($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSelling(Selling $selling): static
+    {
+        if ($this->sellings->removeElement($selling)) {
+            // set the owning side to null (unless already changed)
+            if ($selling->getUserIdSeller() === $this) {
+                $selling->setUserIdSeller(null);
             }
         }
 

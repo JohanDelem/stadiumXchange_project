@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Repository\TicketRepository;
+use App\Repository\SellingRepository;
+use App\Repository\CardDetailsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,7 +12,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class MySpaceController extends AbstractController
 {
     #[Route('/my_space', name: 'mySpace')]
-    public function index(TicketRepository $ticketRepository): Response
+    public function index(
+        TicketRepository $ticketRepository, 
+        SellingRepository $sellingRepository,
+        CardDetailsRepository $cardDetailsRepository
+    ): Response
     {
         $user = $this->getUser();
         
@@ -20,18 +26,21 @@ class MySpaceController extends AbstractController
 
         $myTickets = $ticketRepository->findBy(['owner' => $user]);
         $myTicketsForSale = $ticketRepository->findBy([
-            'userIdSeller' => $user,
+            'owner' => $user,
             'state' => 'en vente'
         ]);
-        $mySoldTickets = $ticketRepository->findBy([
-            'userIdSeller' => $user,
-            'state' => 'vendu'
+        $mySoldTickets = $sellingRepository->findBy([
+            'seller' => $user,
         ]);
+
+        // Récupérer les cartes bancaires de l'utilisateur
+        $myCards = $cardDetailsRepository->findBy(['user' => $user->getId()]);
 
         return $this->render('my_space/index.html.twig', [
             'myTickets' => $myTickets,
             'myTicketsForSale' => $myTicketsForSale,
             'mySoldTickets' => $mySoldTickets,
+            'myCards' => $myCards,
         ]);
     }
 }

@@ -19,48 +19,53 @@
     </header>
 
     <main class="main-content">
-    <section class="ticket-section">
-        <div class="ticket-box">
-            <h2>Mes Tickets</h2>
-            {% for ticket in myTickets %}
-                <div class="ticket">
-                    <p>Numéro de ticket : {{ ticket.id }}</p>
-                    <p>Date : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                    <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
-                    <p>Stade : {{ ticket.stadium }}</p>
-                    <p>Statut  : {{ ticket.state }}</p>
-                </div>
-            {% else %}
-                <p>Vous n'avez pas de tickets.</p>
-            {% endfor %}
-        </div>
-        {# <div class="ticket-box">
-            <h2>Mes Tickets en Vente</h2>
-            {% for ticket in myTicketsForSale %}
-                <div class="ticket">
-                    <p>Ticket N° {{ ticket.id }}</p>
-                    <p>Date {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                    <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
-                    <p>Prix : {{ ticket.price }} €</p>
-                </div>
-            {% else %}
-                <p>Vous n'avez pas de tickets en vente.</p>
-            {% endfor %}
-        </div> #}
-        <div class="ticket-box">
-            <h2>Mes Tickets Vendus</h2>
-            {% for ticket in mySoldTickets %}
-                <div class="ticket">
-                    <p>Ticket N° {{ ticket.id }}</p>
-                    <p>Date {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                    <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
-                    <p>Vendu pour : {{ ticket.price }} €</p>
-                </div>
-            {% else %}
-                <p>Vous n'avez pas encore vendu de tickets.</p>
-            {% endfor %}
-        </div>
-    </section>
-</main>
+        <section class="ticket-section">
+            <div class="ticket-box">
+                <h2>Mes Tickets en Vente</h2>
+                {% for ticket in myTicketsForSale %}
+                    <div class="ticket">
+                        <p>Identifiant ticket : {{ ticket.id }}</p>
+                        <p>Le {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                        <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
+                        <p>Prix : {{ ticket.price }} €</p>
+                    </div>
+                {% else %}
+                    <p>Vous n'avez pas de tickets en vente.</p>
+                {% endfor %}
+            </div>
+            <div class="ticket-box">
+                <h2>Mes Tickets Vendus</h2>
+                {% for selling in mySoldTickets %}
+                    <div class="ticket">
+                        <p>Ticket N° {{ selling.ticket.id }}</p>
+                        <p>Vendu le {{ selling.date|date('d/m/Y H:i') }}</p>
+                        <p>{{ selling.ticket.homeTeam }} vs {{ selling.ticket.awayTeam }}</p>
+                        <p>Vendu pour : {{selling.ticket.price }} €</p>
+                    </div>
+                {% else %}
+                    <p>Vous n'avez pas encore vendu de tickets.</p>
+                {% endfor %}
+            </div>
+        </section>
+        
+        <section class="card-section">
+            <div class="card-box">
+                <h2>Mes Cartes Bancaires</h2>
+                {% if myCards|length > 0 %}
+                    {% for card in myCards %}
+                        <div class="card">
+                            <p>Numéro : **** **** **** {{ card.cardNumber|slice(-4) }}</p>
+                            <p>Expire le : {{ card.expirationDate|date('m/Y') }}</p>
+                            <p>Titulaire : {{ card.firstname }} {{ card.lastname }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
+                {% endif %}
+                
+                <a href="#" class="add-card-button">Ajouter une carte</a>
+            </div>
+        </section>
+    </main>
 </div>
 {% endblock %}
