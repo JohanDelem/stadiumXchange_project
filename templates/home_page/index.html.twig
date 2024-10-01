@@ -28,7 +28,11 @@
                     <p>Date et heure : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
                     <p>Stade : {{ ticket.stadium }}</p>
                     <p>Prix : {{ ticket.price }} €</p>
-                    {# <p>État : {{ ticket.state }}</p> #}
+                    {% if ticket.owner %}
+                        <p>Mis en vente par : {{ ticket.owner.lastname }} {{ ticket.owner.firstname }}</p>
+                    {% else %}
+                        <p>Mis en vente par : Inconnu</p>
+                    {% endif %}
                 </div>
             </a>
         {% else %}

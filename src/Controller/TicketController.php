@@ -66,6 +66,7 @@ final class TicketController extends AbstractController{
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/{id}/edit', name: 'app_ticket_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
@@ -73,7 +74,6 @@ final class TicketController extends AbstractController{
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Assigner 'En vente' à l'état si ce n'est pas défini
             if ($ticket->getState() === null) {
                 $ticket->setState('en vente');
             }
