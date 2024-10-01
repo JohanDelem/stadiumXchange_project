@@ -21,7 +21,7 @@
     <main class="main-content">
         <section class="ticket-section">
             <div class="ticket-box">
-                <h2>Mes Tickets en Vente</h2>
+                <h2>Mes tickets en vente</h2>
                 {% for ticket in myTicketsForSale %}
                     <div class="ticket">
                         <p>Identifiant ticket : {{ ticket.id }}</p>
@@ -34,7 +34,7 @@
                 {% endfor %}
             </div>
             <div class="ticket-box">
-                <h2>Mes Tickets Vendus</h2>
+                <h2>Mes ventes</h2>
                 {% for selling in mySoldTickets %}
                     <div class="ticket">
                         <p>Ticket N° {{ selling.ticket.id }}</p>
@@ -44,6 +44,19 @@
                     </div>
                 {% else %}
                     <p>Vous n'avez pas encore vendu de tickets.</p>
+                {% endfor %}
+            </div>
+            <div class="ticket-box">
+                <h2>Mes achats</h2>
+                {% for buying in myBoughtTickets %}
+                    <div class="ticket">
+                        <p>Ticket N° {{ buying.ticket.id }}</p>
+                        <p>Vendu le {{ buying.date|date('d/m/Y H:i') }}</p>
+                        <p>{{ buying.ticket.homeTeam }} vs {{ buying.ticket.awayTeam }}</p>
+                        <p>Acheté pour : {{buying.ticket.price }} €</p>
+                    </div>
+                {% else %}
+                    <p>Vous n'avez pas encore achté de tickets.</p>
                 {% endfor %}
             </div>
         </section>
@@ -63,7 +76,7 @@
                     <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
                 {% endif %}
                 
-                <a href="#" class="add-card-button">Ajouter une carte</a>
+                <a href="{{ path('app_card_details_new') }}" class="add-card-button">Ajouter une carte</a>
             </div>
         </section>
     </main>

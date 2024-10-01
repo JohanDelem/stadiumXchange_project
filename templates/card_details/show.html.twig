@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CardDetails{% endblock %}
+
+{% block body %}
+    <h1>CardDetails</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ card_detail.id }}</td>
+            </tr>
+            <tr>
+                <th>CardNumber</th>
+                <td>{{ card_detail.cardNumber }}</td>
+            </tr>
+            <tr>
+                <th>ExpirationDate</th>
+                <td>{{ card_detail.expirationDate ? card_detail.expirationDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Cryptogram</th>
+                <td>{{ card_detail.cryptogram }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ card_detail.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ card_detail.lastname }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_card_details_index') }}">back to list</a>
+
+    <a href="{{ path('app_card_details_edit', {'id': card_detail.id}) }}">edit</a>
+
+    {{ include('card_details/_delete_form.html.twig') }}
+{% endblock %}
