@@ -9,7 +9,7 @@
 {% block body %}
 <div class="personal-space">
     <header class="personal-header">
-        <div class="welcome-message">Bienvenue, {{ app.user.firstname }} {{ app.user.lastname }} id : {{ app.user.id }}</div>
+        <div class="welcome-message">Bienvenue, {{ app.user.firstname }} {{ app.user.lastname }}</div>
         <div class="logo-container">
             <a href="{{ path('app_home_page') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">

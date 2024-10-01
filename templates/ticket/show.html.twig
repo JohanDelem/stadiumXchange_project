@@ -38,10 +38,10 @@
                 <th>Stade</th>
                 <td>{{ ticket.stadium }}</td>
             </tr>
-            {# <tr>
-                <th>State</th>
-                <td>{{ ticket.state }}</td>
-            </tr> #}
+            <tr>
+                <th>Utilisateur</th>
+                <td>{{ ticket.owner.lastname }} {{ ticket.owner.firstname }}</td>
+            </tr>
         </tbody>
     </table>
 <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">Acheter</a>
