@@ -36,13 +36,6 @@ class CardDetails
     private ?User $user = null;
 
   
- 
-   
-
-    public function __construct()
-    {
-     
-    }
 
     public function getId(): ?int
     {

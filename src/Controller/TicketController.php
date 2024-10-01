@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController{
@@ -21,26 +22,30 @@ final class TicketController extends AbstractController{
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $ticket = new Ticket();
-    $form = $this->createForm(TicketType::class, $ticket);
-    $form->handleRequest($request);
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $ticket = new Ticket();
+        $form = $this->createForm(TicketType::class, $ticket);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->persist($ticket);
-        $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ticket->setState('en vente');
 
-        // rediriger vers la page d'accueil
-        return $this->redirectToRoute('app_home_page', [], Response::HTTP_SEE_OTHER);
+            $entityManager->persist($ticket);
+            $entityManager->flush();
+
+            // rediriger vers la page d'accueil
+            return $this->redirectToRoute('app_home_page', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('ticket/new.html.twig', [
+            'ticket' => $ticket,
+            'form' => $form,
+        ]);
     }
 
-    return $this->render('ticket/new.html.twig', [
-        'ticket' => $ticket,
-        'form' => $form,
-    ]);
-}
 
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
     public function show(Ticket $ticket): Response
@@ -57,6 +62,11 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Assigner 'En vente' à l'état si ce n'est pas défini
+            if ($ticket->getState() === null) {
+                $ticket->setState('en vente');
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
@@ -67,6 +77,7 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
             'form' => $form,
         ]);
     }
+
 
     #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
     public function delete(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response
