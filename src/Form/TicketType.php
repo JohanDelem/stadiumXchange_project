@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,12 +16,12 @@ class TicketType extends AbstractType
         $builder
             ->add('homeTeam', TextType::class, ['label' => 'Equipe 1'])
             ->add('awayTeam', TextType::class, ['label' => 'Equipe 2'])
-            ->add('dateTime', DateType::class, ['label' => 'Date'], null, [
+            ->add('dateTime', DateTimeType::class, ['label' => 'Date'], null, [
                 'widget' => 'single_text'
             ])
             ->add('price', TextType::class, ['label' => 'Prix'])
             ->add('stadium', TextType::class, ['label' => 'Stade'])
-
+            ->add('competition', TextType::class, ['label' => 'Compétition'])
         ;
     }
 

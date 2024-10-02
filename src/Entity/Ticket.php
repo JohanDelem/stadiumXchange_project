@@ -32,12 +32,15 @@ class Ticket
     #[ORM\Column(length: 255)]
     private ?string $state = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'ownedTickets')]
     private ?User $owner = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: "sellingTickets")]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $userIdSeller = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $competition = null;
 
     public function getId(): ?int
     {
@@ -136,6 +139,18 @@ class Ticket
     public function setUserIdSeller(?User $userIdSeller): static
     {
         $this->userIdSeller = $userIdSeller;
+
+        return $this;
+    }
+
+    public function getCompetition(): ?string
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?string $competition): static
+    {
+        $this->competition = $competition;
 
         return $this;
     }
