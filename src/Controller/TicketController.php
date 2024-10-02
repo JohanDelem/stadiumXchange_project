@@ -100,4 +100,18 @@ final class TicketController extends AbstractController{
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/ticket/{id}/buy', name: 'app_ticket_buy', methods: ['GET', 'POST'])]
+    public function buyTicket(Ticket $ticket, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $ticket->setOwner($user);
+
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_home_page');
+    }
 }
