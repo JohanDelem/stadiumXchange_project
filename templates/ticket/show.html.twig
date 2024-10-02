@@ -46,6 +46,10 @@
                         <p>Inconnu</p>
                     {% endif %}</td>
             </tr>
+            <tr>
+                <th>Compétition</th>
+                <td>{{ ticket.competition }}</td>
+            </tr>
         </tbody>
     </table>
 <a href="{{ path('app_ticket_buy', {id: ticket.id}) }}">Acheter</a>
