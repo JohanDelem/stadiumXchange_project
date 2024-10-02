@@ -23,15 +23,21 @@
             <div class="ticket-box">
                 <h2>Mes tickets en vente</h2>
                 {% for ticket in myTicketsForSale %}
-                    <div class="ticket">
-                        <p>Identifiant ticket : {{ ticket.id }}</p>
-                        <p>Le {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                        <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
-                        <p>Prix : {{ ticket.price }} €</p>
-                    </div>
-                {% else %}
-                    <p>Vous n'avez pas de tickets en vente.</p>
-                {% endfor %}
+    <div class="ticket">
+        <p>Identifiant ticket : {{ ticket.id }}</p>
+        <p>Le {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+        <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
+        <p>Prix : {{ ticket.price }} €</p>
+
+        <form method="post" action="{{ path('delete_ticket', {'id': ticket.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce ticket ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
+            <button class="delete-button">Supprimer</button>
+        </form>
+    </div>
+{% else %}
+    <p>Vous n'avez pas de tickets en vente.</p>
+{% endfor %}
+
             </div>
             <div class="ticket-box">
                 <h2>Mes ventes</h2>
@@ -56,7 +62,7 @@
                         <p>Acheté pour : {{buying.ticket.price }} €</p>
                     </div>
                 {% else %}
-                    <p>Vous n'avez pas encore achté de tickets.</p>
+                    <p>Vous n'avez pas encore acheté de tickets.</p>
                 {% endfor %}
             </div>
         </section>
@@ -65,13 +71,22 @@
             <div class="card-box">
                 <h2>Mes Cartes Bancaires</h2>
                 {% if myCards|length > 0 %}
-                    {% for card in myCards %}
-                        <div class="card">
-                            <p>Numéro : **** **** **** {{ card.cardNumber|slice(-4) }}</p>
-                            <p>Expire le : {{ card.expirationDate|date('m/Y') }}</p>
-                            <p>Titulaire : {{ card.firstname }} {{ card.lastname }}</p>
-                        </div>
-                    {% endfor %}
+                {% for card in myCards %}
+    <div class="card">
+        <p>Numéro : **** **** **** {{ card.cardNumber|slice(-4) }}</p>
+        <p>Expire le : {{ card.expirationDate|date('m/Y') }}</p>
+        <p>Titulaire : {{ card.firstname }} {{ card.lastname }}</p>
+
+        <form method="post" action="{{ path('delete_card', {'id': card.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette carte ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+            <button class="delete-button">Supprimer</button>
+        </form>
+    </div>
+
+{% else %}
+    <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
+{% endfor %}
+
                 {% else %}
                     <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
                 {% endif %}
@@ -80,5 +95,88 @@
             </div>
         </section>
     </main>
+    {# <div id="confirmModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <h2>Confirmation de suppression</h2>
+    <p>Êtes-vous sûr de vouloir supprimer ce ticket ?</p>
+    <form id="deleteForm" method="post">
+      <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+      <div class="modal-buttons">
+        <button type="submit" id="confirmDelete" class="confirm-button">Confirmer</button>
+        <button type="button" class="cancel-button">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div> #}
 </div>
+         {% block javascripts %}
+    
+    {# <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let currentId;
+    const modal = document.getElementById('confirmModal');
+
+    function openModal(id, type) {
+        currentId = id;
+        modal.style.display = 'block';
+        // Modifiez l'URL d'action du formulaire selon le type (ticket ou carte)
+        if (type === 'ticket') {
+            document.getElementById('deleteForm').action = '/ticket/' + id;
+        } else if (type === 'card') {
+            document.getElementById('deleteForm').action = '/card/' + id;  // Assurez-vous que cette route existe
+        }
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // Gestionnaire pour les boutons de suppression des tickets
+    document.querySelectorAll('.delete-button-ticket').forEach(button => {
+        button.addEventListener('click', function() {
+            openModal(this.dataset.ticketId, 'ticket');
+        });
+    });
+
+    // Gestionnaire pour les boutons de suppression des cartes bancaires
+    document.querySelectorAll('.delete-button-card').forEach(button => {
+        button.addEventListener('click', function() {
+            openModal(this.dataset.cardId, 'card');
+        });
+    });
+
+    // Gestionnaire pour le bouton d'annulation
+    document.querySelector('.cancel-button').addEventListener('click', closeModal);
+
+    // Gestionnaire pour le formulaire de suppression
+    document.getElementById('deleteForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                throw new Error('Erreur lors de la suppression');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la suppression.');
+        });
+    });
+
+    // Fermer la modal si on clique en dehors
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+});
+
+
+    </script> #}
+{% endblock %}
 {% endblock %}

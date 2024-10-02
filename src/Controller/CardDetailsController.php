@@ -81,7 +81,7 @@ final class CardDetailsController extends AbstractController{
         ]);
     }
 
-    #[Route('/{id}', name: 'app_card_details_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete_card', methods: ['POST'])]
     public function delete(Request $request, CardDetails $cardDetail, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cardDetail->getId(), $request->getPayload()->getString('_token'))) {
@@ -89,6 +89,6 @@ final class CardDetailsController extends AbstractController{
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_card_details_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('mySpace', [], Response::HTTP_SEE_OTHER);
     }
 }
