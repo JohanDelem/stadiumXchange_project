@@ -25,7 +25,7 @@ class TicketRepository extends ServiceEntityRepository
             ->andWhere('t.state = :state')
             ->setParameter('state', 'en vente');
             if ($team) {
-                $queryBuilder->andWhere('t.homeTeam LIKE :team OR t.awayTeam LIKE :team')  
+                $queryBuilder->andWhere('t.homeTeam LIKE :team OR t.awayTeam LIKE :team OR t.competition LIKE :team ')  
                 ->setParameter('team', '%'.$team.'%');
             }
             return $queryBuilder
