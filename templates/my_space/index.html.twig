@@ -23,22 +23,22 @@
             <div class="ticket-box">
                 <h2>Mes tickets en vente</h2>
                 {% for ticket in myTicketsForSale %}
-    <div class="ticket">
-        <p>Identifiant ticket : {{ ticket.id }}</p>
-        <p>Le {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-        <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
-        <p>Prix : {{ ticket.price }} €</p>
+                    <div class="ticket">
+                        <p>Identifiant ticket : {{ ticket.id }}</p>
+                        <p>Le {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                        <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
+                        <p>Prix : {{ ticket.price }} €</p>
 
-        <form method="post" action="{{ path('delete_ticket', {'id': ticket.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce ticket ?');">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
-            <button class="delete-button">Supprimer</button>
-        </form>
-    </div>
-{% else %}
-    <p>Vous n'avez pas de tickets en vente.</p>
-{% endfor %}
-
+                        <form method="post" action="{{ path('delete_ticket', {'id': ticket.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
+                            <button type="submit" class="delete-button" data-type="ticket" data-id="{{ ticket.id }}">Supprimer</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p>Vous n'avez pas de tickets en vente.</p>
+                {% endfor %}
             </div>
+
             <div class="ticket-box">
                 <h2>Mes ventes</h2>
                 {% for selling in mySoldTickets %}
@@ -46,12 +46,13 @@
                         <p>Ticket N° {{ selling.ticket.id }}</p>
                         <p>Vendu le {{ selling.date|date('d/m/Y H:i') }}</p>
                         <p>{{ selling.ticket.homeTeam }} vs {{ selling.ticket.awayTeam }}</p>
-                        <p>Vendu pour : {{selling.ticket.price }} €</p>
+                        <p>Vendu pour : {{ selling.ticket.price }} €</p>
                     </div>
                 {% else %}
                     <p>Vous n'avez pas encore vendu de tickets.</p>
                 {% endfor %}
             </div>
+
             <div class="ticket-box">
                 <h2>Mes achats</h2>
                 {% for buying in myBoughtTickets %}
@@ -59,34 +60,30 @@
                         <p>Ticket N° {{ buying.ticket.id }}</p>
                         <p>Vendu le {{ buying.date|date('d/m/Y H:i') }}</p>
                         <p>{{ buying.ticket.homeTeam }} vs {{ buying.ticket.awayTeam }}</p>
-                        <p>Acheté pour : {{buying.ticket.price }} €</p>
+                        <p>Acheté pour : {{ buying.ticket.price }} €</p>
                     </div>
                 {% else %}
                     <p>Vous n'avez pas encore acheté de tickets.</p>
                 {% endfor %}
             </div>
         </section>
-        
+
         <section class="card-section">
             <div class="card-box">
                 <h2>Mes Cartes Bancaires</h2>
                 {% if myCards|length > 0 %}
-                {% for card in myCards %}
-    <div class="card">
-        <p>Numéro : **** **** **** {{ card.cardNumber|slice(-4) }}</p>
-        <p>Expire le : {{ card.expirationDate|date('m/Y') }}</p>
-        <p>Titulaire : {{ card.firstname }} {{ card.lastname }}</p>
+                    {% for card in myCards %}
+                        <div class="card">
+                            <p>Numéro : **** **** **** {{ card.cardNumber|slice(-4) }}</p>
+                            <p>Expire le : {{ card.expirationDate|date('m/Y') }}</p>
+                            <p>Titulaire : {{ card.firstname }} {{ card.lastname }}</p>
 
-        <form method="post" action="{{ path('delete_card', {'id': card.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette carte ?');">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
-            <button class="delete-button">Supprimer</button>
-        </form>
-    </div>
-
-{% else %}
-    <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
-{% endfor %}
-
+                            <form method="post" action="{{ path('delete_card', {'id': card.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+                                <button type="submit" class="delete-button" data-type="card" data-id="{{ card.id }}">Supprimer</button>
+                            </form>
+                        </div>
+                    {% endfor %}
                 {% else %}
                     <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
                 {% endif %}
@@ -95,88 +92,61 @@
             </div>
         </section>
     </main>
-    {# <div id="confirmModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <h2>Confirmation de suppression</h2>
-    <p>Êtes-vous sûr de vouloir supprimer ce ticket ?</p>
-    <form id="deleteForm" method="post">
-      <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-      <div class="modal-buttons">
-        <button type="submit" id="confirmDelete" class="confirm-button">Confirmer</button>
-        <button type="button" class="cancel-button">Annuler</button>
-      </div>
-    </form>
-  </div>
-</div> #}
-</div>
-         {% block javascripts %}
-    
-    {# <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    let currentId;
-    const modal = document.getElementById('confirmModal');
 
-    function openModal(id, type) {
-        currentId = id;
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmation de suppression</h2>
+            <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+            <form id="deleteForm" method="post">
+                <input type="hidden" name="_token" value="">
+                <div class="modal-buttons">
+                    <button type="submit" id="confirmDelete" class="confirm-button">Confirmer</button>
+                    <button type="button" class="cancel-button">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('confirmModal');
+    const deleteForm = document.getElementById('deleteForm');
+    const csrfTokenField = deleteForm.querySelector('input[name="_token"]');
+
+    function openModal(id, type, csrfToken) {
+        deleteForm.action = `/${type}/` + id;
+        csrfTokenField.value = csrfToken;
         modal.style.display = 'block';
-        // Modifiez l'URL d'action du formulaire selon le type (ticket ou carte)
-        if (type === 'ticket') {
-            document.getElementById('deleteForm').action = '/ticket/' + id;
-        } else if (type === 'card') {
-            document.getElementById('deleteForm').action = '/card/' + id;  // Assurez-vous que cette route existe
-        }
     }
 
     function closeModal() {
         modal.style.display = 'none';
     }
 
-    // Gestionnaire pour les boutons de suppression des tickets
-    document.querySelectorAll('.delete-button-ticket').forEach(button => {
-        button.addEventListener('click', function() {
-            openModal(this.dataset.ticketId, 'ticket');
+    // Gestion des boutons de suppression
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const id = this.getAttribute('data-id');
+            const type = this.getAttribute('data-type');
+            const csrfToken = this.previousElementSibling.value; // Récupère le CSRF token du formulaire
+
+            openModal(id, type, csrfToken);
         });
     });
 
-    // Gestionnaire pour les boutons de suppression des cartes bancaires
-    document.querySelectorAll('.delete-button-card').forEach(button => {
-        button.addEventListener('click', function() {
-            openModal(this.dataset.cardId, 'card');
-        });
-    });
-
-    // Gestionnaire pour le bouton d'annulation
+    // Gestion du bouton d'annulation
     document.querySelector('.cancel-button').addEventListener('click', closeModal);
-
-    // Gestionnaire pour le formulaire de suppression
-    document.getElementById('deleteForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        fetch(this.action, {
-            method: 'POST',
-            body: new FormData(this)
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                throw new Error('Erreur lors de la suppression');
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            alert('Une erreur est survenue lors de la suppression.');
-        });
-    });
 
     // Fermer la modal si on clique en dehors
     window.onclick = function(event) {
         if (event.target == modal) {
             closeModal();
         }
-    }
+    };
 });
-
-
-    </script> #}
+</script>
 {% endblock %}
 {% endblock %}
