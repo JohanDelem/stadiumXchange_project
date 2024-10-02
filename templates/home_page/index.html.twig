@@ -20,6 +20,13 @@
         </div>
     </div>
 
+    <div class="search-bar">
+    <form action="#" method="GET">
+            <input type="text" name="query" placeholder="Rechercher une équipe ou une compétition" class="search-input">
+            <button type="submit" class="search-button">Rechercher</button>
+        </form>
+    </div>
+
     <div class="tickets">
         {% for ticket in tickets %}
             <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">

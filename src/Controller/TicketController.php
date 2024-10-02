@@ -6,11 +6,13 @@ namespace App\Controller;
 use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
+
+use App\Entity\Selling;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -110,12 +112,39 @@ final class TicketController extends AbstractController{
     public function buyTicket(Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour acheter un ticket.');
+        }
+    
+        // Récupérer la première carte bancaire de l'utilisateur
+        $cardDetails = $user->getCardDetails();
+        if ($cardDetails->isEmpty()) {
+            throw new \Exception('Vous devez enregister une carte bancaire pour acheter un ticket.');
+        }
+    
+        $firstCard = $cardDetails->first();
+    
+        // Créer une nouvelle instance de Selling
+        $selling = new Selling();
+    
+        // Configurer la vente
+        $selling->setTicket($ticket);
+        $selling->setDate(new \DateTime());
+        $selling->setPurchaser($user);
+        $selling->setSeller($ticket->getOwner());
+        $selling->setCardDetail($firstCard); // Utiliser l'objet CardDetails directement
+    
+        // Mettre à jour le propriétaire du ticket
         $ticket->setOwner($user);
 
+         // Changer le statut du ticket
+         $ticket->setState("vendu");
+    
+        // Persister les changements
+        $entityManager->persist($selling);
         $entityManager->persist($ticket);
         $entityManager->flush();
-
+    
         return $this->redirectToRoute('app_home_page');
     }
 }
