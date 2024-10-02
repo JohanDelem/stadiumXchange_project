@@ -6,6 +6,18 @@ body {
     background-repeat: no-repeat; /* Empêche la répétition de l'image */
     background-attachment: fixed; /* Fixe l'image de fond pour qu'elle reste en place lors du défilement */
     text-align: center;
+    padding-top: 60px; /* Ajustez cette valeur selon la hauteur de votre header */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: -1; /* Ensure it's behind all content */
 }
 
 
@@ -28,9 +40,7 @@ body {
     z-index: 1000;
 }
 
-body {
-    padding-top: 60px; /* Ajustez cette valeur selon la hauteur de votre header */
-}
+
 .sell-ticket, .login {
     font-size: 16px;
     font-weight: bold;
@@ -83,4 +93,63 @@ a {
 a:hover {
     color: #ffc107; /* Optionnel : Change la couleur au survol (à adapter selon ton jeu de couleurs) */
     text-decoration: underline; /* Optionnel : ajoute un soulignement au survol */
+}
+
+@media (max-width: 768px) {
+    .tickets {
+        grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .tickets {
+        grid-template-columns: 1fr; /* Single column on very small screens */
+    }
+}
+
+
+/* Barre de recherche */
+.search-bar {
+    position: relative;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.search-input {
+    
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ffc107; /* Bordure jaune pour correspondre à l'esthétique dorée */
+    border-radius: 20px 0 0 20px; /* Arrondit les bords gauche */
+    outline: none; /* Supprime la bordure bleue par défaut lors du focus */
+    font-size: 16px;
+    transition: box-shadow 0.3s ease; /* Transition pour l'effet de focus */
+}
+
+.search-input:focus {
+    box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.7); /* Effet lumineux autour de l'input au focus */
+}
+
+.search-button {
+   
+    background-color: #ffc107; /* Utilise la couleur dorée pour le bouton */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    border-radius: 0 20px 20px 0; /* Arrondit les bords droit */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur */
+}
+
+.search-button:hover {
+    background-color: #e0a800; /* Assombrit légèrement le bouton au survol */
+}
+
+.search-button:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.7); /* Effet lumineux sur le bouton au focus */
 }

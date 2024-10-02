@@ -19,14 +19,20 @@ class TicketRepository extends ServiceEntityRepository
     /**
      * @return Ticket[] Returns an array of Ticket objects with state 'en vente'
      */
-    public function findTicketsEnVente(): array
+    public function findTicketsEnVente(?string $team = null): array
     {
-        return $this->createQueryBuilder('t')
+        $queryBuilder = $this->createQueryBuilder('t')
             ->andWhere('t.state = :state')
-            ->setParameter('state', 'en vente')
+            ->setParameter('state', 'en vente');
+            if ($team) {
+                $queryBuilder->andWhere('t.homeTeam LIKE :team OR t.awayTeam LIKE :team')  
+                ->setParameter('team', '%'.$team.'%');
+            }
+            return $queryBuilder
             ->orderBy('t.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
+
 }
