@@ -15,7 +15,11 @@
     </header>
 
     <main>
-        {% block body %}{% endblock %}
+        {% block body %}
+         {% block javascripts %}
+    {# inclusion éventuelle de JavaScript #}
+         {% endblock %}
+      {% endblock %}
     </main>
 
     <footer>

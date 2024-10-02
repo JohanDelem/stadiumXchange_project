@@ -23,3 +23,13 @@ register:
 mySpace:
     path: /my_space
     controller: App\Controller\MySpaceController::index
+
+delete_ticket:
+    path: /ticket/{id}
+    controller: App\Controller\TicketController::delete
+    methods: POST
+
+delete_card:
+    path: /card/{id}
+    controller: App\Controller\CardDetailsController::delete
+    methods: POST
