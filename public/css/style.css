@@ -1,161 +1,208 @@
+:root {
+    --primary-color: #ffc107;
+    --secondary-color: #000;
+    --text-color: #333;
+    --background-color: #f4f4f4;
+    --card-background: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
     background-image: url('../images/Background_image2.png');
-    background-size: cover; /* Ajuste l'image pour qu'elle couvre toute la page */
-    background-position: center; 
-    background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    background-attachment: fixed; /* Fixe l'image de fond pour qu'elle reste en place lors du défilement */
-    text-align: center;
-    padding-top: 60px; /* Ajustez cette valeur selon la hauteur de votre header */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-top: 80px;
 }
-
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    z-index: -1; /* Ensure it's behind all content */
-}
-
 
 .container {
-    width: auto;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
-    /* border: 2px solid red; */
 }
 
-.header {
+.site-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: black;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-}
-
-
-.sell-ticket, .login {
-    font-size: 16px;
-    font-weight: bold;
-    color: yellow;
-    cursor: pointer;
-    text-decoration: none; 
-}
-
-.sell-ticket:hover, .login:hover {
-    text-decoration: underline;
-   
 }
 
 .logo img {
-    max-width: 200px;
+    max-width: 150px;
 }
 
-.tickets {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin: 50px;
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.ticket {
-    background-color: gold;
-    margin: 50px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-    transition: transform 0.3s ease; /* Ajoute une transition fluide */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
-.ticket:hover {
-    transform: scale(1.1); /* Grossit le ticket de 10% au survol */
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
 }
 
-.ticket h2, .ticket p {
-    margin: 0;
-    color: #555;
+.btn:hover {
+    opacity: 0.9;
 }
 
-/* Styles pour les liens */
-a {
-    color: inherit; /* Garde la couleur d'origine de l'élément parent */
-    text-decoration: none; /* Enlève le soulignement par défaut */
+.search-section {
+    margin: 2rem 0;
 }
 
-a:hover {
-    color: #ffc107; /* Optionnel : Change la couleur au survol (à adapter selon ton jeu de couleurs) */
-    text-decoration: underline; /* Optionnel : ajoute un soulignement au survol */
-}
-
-@media (max-width: 768px) {
-    .tickets {
-        grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns on smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .tickets {
-        grid-template-columns: 1fr; /* Single column on very small screens */
-    }
-}
-
-
-/* Barre de recherche */
-.search-bar {
-    position: relative;
-    z-index: 1000;
+.search-form {
     display: flex;
     justify-content: center;
-    margin-top: 60px;
 }
 
 .search-input {
-    
     width: 300px;
-    padding: 10px;
-    border: 2px solid #ffc107; /* Bordure jaune pour correspondre à l'esthétique dorée */
-    border-radius: 20px 0 0 20px; /* Arrondit les bords gauche */
-    outline: none; /* Supprime la bordure bleue par défaut lors du focus */
-    font-size: 16px;
-    transition: box-shadow 0.3s ease; /* Transition pour l'effet de focus */
-}
-
-.search-input:focus {
-    box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.7); /* Effet lumineux autour de l'input au focus */
-}
-
-.search-button {
-   
-    background-color: #ffc107; /* Utilise la couleur dorée pour le bouton */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: black;
-    border-radius: 0 20px 20px 0; /* Arrondit les bords droit */
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur */
-}
-
-.search-button:hover {
-    background-color: #e0a800; /* Assombrit légèrement le bouton au survol */
-}
-
-.search-button:focus {
+    padding: 0.75rem 1rem;
+    border-radius: 30px 0 0 30px;
+    border: 2px solid var(--primary-color);
+    font-size: 1rem;
     outline: none;
-    box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.7); /* Effet lumineux sur le bouton au focus */
 }
+
+.btn-search {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+}
+
+.tickets-section {
+    padding: 2rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+
+.tickets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.ticket-card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+.ticket-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.ticket-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: fill;
+}
+
+.ticket-header {
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.team-match {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .team-logo {
     width: 30px;
     height: 30px;
-    vertical-align: middle;
-    margin: 0 5px;
+}
+
+.vs {
+    font-weight: bold;
+}
+
+.ticket-body {
+    padding: 1rem;
+}
+
+.ticket-price {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-top: 0.5rem;
+}
+
+.site-footer {
+    background-color: var(--secondary-color);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-input, .btn-search {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 30px;
+        margin-bottom: 0.5rem;
+    }
 }

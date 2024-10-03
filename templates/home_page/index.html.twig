@@ -1,65 +1,88 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
 
-{% block title %}Stadium Xchange{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <title>Stadium Xchange - Accueil</title>
+</head>
 
-{% block body %}
-{# {{dump(teamsLogo)}} #}
-<div class="container">
-    <div class="header">
-        <a href="{{ path('app_ticket_new') }}"><div class="sell-ticket">VENDRE MON TICKET</div></a>
-        <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
-        </div>
-        <div class="login">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('mySpace') }}">Mon Espace</a> <br><br>
-                <a href="{{ path('logout') }}">Se Déconnecter</a>
-            {% else %}
-                <a href="{{ path('login') }}">Se Connecter</a> <br><br>
-                <a href="{{ path('register') }}">Créer un compte</a>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="search-bar">
-    <form action="#" method="GET">
-            <input type="text" name="query" placeholder="Rechercher une équipe ou une compétition" class="search-input">
-            <button type="submit" class="search-button">Rechercher</button>
-        </form>
-    </div>
-
-    <div class="tickets">
-    {% for ticket in tickets %}
-        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">
-            <div class="ticket">
-            <h2>
-                <img src="{{teamsLogo[ticket.homeTeam ]|default() }}" alt="{{ ticket.homeTeam }}" class="team-logo" data-team="{{ ticket.homeTeam }}">
-                <span class="team-name">{{ ticket.homeTeam }}</span>
-                vs
-                <span class="team-name">{{ ticket.awayTeam }}</span>
-                <img src="{{teamsLogo[ticket.awayTeam ]|default() }}" alt="{{ ticket.awayTeam }}" class="team-logo" data-team="{{ ticket.awayTeam }}">
-            </h2>
-                <p>Date et heure : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                <p>Stade : {{ ticket.stadium }}</p>
-                <p>Prix : {{ ticket.price }} €</p>
-                {% if ticket.owner %}
-                    <p>Mis en vente par : {{ ticket.owner.lastname }} {{ ticket.owner.firstname }}</p>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="{{ path('app_ticket_new') }}" class="btn btn-sell-ticket">Vendre un billet</a>
+            <a href="{{ path('HomePage') }}" class="logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange Logo">
+            </a>
+            <nav class="user-nav">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a href="{{ path('mySpace') }}" class="btn btn-primary">Mon compte</a>
+                    <a href="{{ path('logout') }}" class="btn btn-secondary">Se déconnecter</a>
                 {% else %}
-                    <p>Mis en vente par : Inconnu</p>
+                    <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
+                    <a href="{{ path('register') }}" class="btn btn-secondary">S'inscrire</a>
                 {% endif %}
-                <p>Compétition : {{ ticket.competition }}</p>
+            </nav>
+        </div>
+    </header>
 
-                    
+    <main>
+        <section class="search-section">
+            <div class="container">
+                <form action="#" method="GET" class="search-form">
+                    <input type="text" name="query" class="search-input" placeholder="Rechercher un match, une équipe...">
+                    <button type="submit" class="btn btn-search">Rechercher</button>
+                </form>
             </div>
-        </a>
-    {% else %}
-        <p>Aucun ticket disponible pour le moment.</p>
-    {% endfor %}
-</div>
-</div>
+        </section>
 
-{% block javascripts %}
+        <section class="tickets-section">
+            <div class="container">
+                <h1 class="section-title">Billets Disponibles</h1>
+                <div class="tickets-grid">
+                    {% for ticket in tickets %}
+                        <div class="ticket-card">
+                            <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="ticket-link">
+                                <div class="ticket-image">
+                                    {% if ticket.competition == 'ligue 1' %}
+                                        <img src="{{ asset('images/ligue1.jpg') }}" alt="Ligue 1">
+                                    {% elseif ticket.competition == 'Ligue des Champions' %}
+                                        <img src="{{ asset('images/ucl.jpg') }}" alt="UEFA Champions League">
+                                    {% endif %}
+                                </div>
+                                <div class="ticket-header">
+                                    <div class="team-match">
+                                        <img src="{{teamsLogo[ticket.homeTeam]|default()}}" alt="{{ ticket.homeTeam }}" class="team-logo">
+                                        <span>{{ ticket.homeTeam }}</span>
+                                        <span class="vs">vs</span>
+                                        <span>{{ ticket.awayTeam }}</span>
+                                        <img src="{{teamsLogo[ticket.awayTeam]|default()}}" alt="{{ ticket.awayTeam }}" class="team-logo">
+                                    </div>
+                                </div>
+                                <div class="ticket-body">
+                                    <p><strong>Date et Heure :</strong> {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                                    <p><strong>Stade :</strong> {{ ticket.stadium }}</p>
+                                    <p class="ticket-price"><strong>Prix :</strong> {{ ticket.price }} €</p>
+                                    <p><strong>Vendeur :</strong> {% if ticket.owner %} {{ ticket.owner.lastname }} {{ ticket.owner.firstname }} {% else %} Inconnu {% endif %}</p>
+                                    <p><strong>Compétition :</strong> {{ ticket.competition }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="no-tickets">Aucun billet n'est disponible pour le moment.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
 
-{% endblock %}
-{% endblock %}
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 Stadium Xchange - Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
 
+</html>
