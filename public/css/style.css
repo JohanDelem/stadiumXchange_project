@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url('../images/background_image.PNG');
+    background-image: url('../images/Background_image2.png');
     background-size: cover; /* Ajuste l'image pour qu'elle couvre toute la page */
     background-position: center; 
     background-repeat: no-repeat; /* Empêche la répétition de l'image */
@@ -152,4 +152,10 @@ a:hover {
 .search-button:focus {
     outline: none;
     box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.7); /* Effet lumineux sur le bouton au focus */
+}
+.team-logo {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin: 0 5px;
 }
