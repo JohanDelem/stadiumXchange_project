@@ -3,6 +3,7 @@
 {% block title %}Stadium Xchange{% endblock %}
 
 {% block body %}
+{# {{dump(teamsLogo)}} #}
 <div class="container">
     <div class="header">
         <a href="{{ path('app_ticket_new') }}"><div class="sell-ticket">VENDRE MON TICKET</div></a>
@@ -28,24 +29,37 @@
     </div>
 
     <div class="tickets">
-        {% for ticket in tickets %}
-            <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">
-                <div class="ticket">
-                    <h2>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</h2>
-                    <p>Date et heure : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                    <p>Stade : {{ ticket.stadium }}</p>
-                    <p>Prix : {{ ticket.price }} €</p>
-                    {% if ticket.owner %}
-                        <p>Mis en vente par : {{ ticket.owner.lastname }} {{ ticket.owner.firstname }}</p>
-                    {% else %}
-                        <p>Mis en vente par : Inconnu</p>
-                    {% endif %}
-                    <p>Compétition : {{ ticket.competition }}</p>
-                </div>
-            </a>
-        {% else %}
-            <p>Aucun ticket disponible pour le moment.</p>
-        {% endfor %}
-    </div>
+    {% for ticket in tickets %}
+        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">
+            <div class="ticket">
+            <h2>
+                <img src="{{teamsLogo[ticket.homeTeam ]|default() }}" alt="{{ ticket.homeTeam }}" class="team-logo" data-team="{{ ticket.homeTeam }}">
+                <span class="team-name">{{ ticket.homeTeam }}</span>
+                vs
+                <span class="team-name">{{ ticket.awayTeam }}</span>
+                <img src="{{teamsLogo[ticket.awayTeam ]|default() }}" alt="{{ ticket.awayTeam }}" class="team-logo" data-team="{{ ticket.awayTeam }}">
+            </h2>
+                <p>Date et heure : {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                <p>Stade : {{ ticket.stadium }}</p>
+                <p>Prix : {{ ticket.price }} €</p>
+                {% if ticket.owner %}
+                    <p>Mis en vente par : {{ ticket.owner.lastname }} {{ ticket.owner.firstname }}</p>
+                {% else %}
+                    <p>Mis en vente par : Inconnu</p>
+                {% endif %}
+                <p>Compétition : {{ ticket.competition }}</p>
+
+                    
+            </div>
+        </a>
+    {% else %}
+        <p>Aucun ticket disponible pour le moment.</p>
+    {% endfor %}
 </div>
+</div>
+
+{% block javascripts %}
+
 {% endblock %}
+{% endblock %}
+
