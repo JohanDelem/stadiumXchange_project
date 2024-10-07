@@ -50,7 +50,7 @@ class HomePageController extends AbstractController
             return $data['result'][0]['team_logo'] ?? null;
         } catch (\Exception $e) {
             // Loggez l'erreur si nécessaire
-            $this->get('logger')->error('Erreur lors de la récupération du logo de l\'équipe ' . $teamName . ': ' . $e->getMessage());
+            // $this->get('logger')->error('Erreur lors de la récupération du logo de l\'équipe ' . $teamName . ': ' . $e->getMessage());
             return null;
         }
     }
