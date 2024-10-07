@@ -6,6 +6,7 @@ use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,7 +22,17 @@ class TicketType extends AbstractType
             ])
             ->add('price', TextType::class, ['label' => 'Prix'])
             ->add('stadium', TextType::class, ['label' => 'Stade'])
-            ->add('competition', TextType::class, ['label' => 'Compétition'])
+            ->add('competition', ChoiceType::class, [
+                'label' => 'Compétition',
+                'choices' => [
+                    'Ligue 1' => 'Ligue 1',
+                    'Ligue des Champions' => 'Ligue des Champions',
+                    'Europa League' => 'Europa League',
+                    'Coupe de France' => 'Coupe de France',
+                    // Ajoutez d'autres compétitions si nécessaire
+                ],
+                'placeholder' => 'Sélectionnez une compétition',
+            ])
         ;
     }
 

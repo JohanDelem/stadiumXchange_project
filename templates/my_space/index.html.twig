@@ -1,96 +1,114 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Espace{% endblock %}
+{% block title %}Mon Espace - Stadium Xchange{% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/myspace.css') }}">
 {% endblock %}
 
 {% block body %}
 <div class="personal-space">
-    <header class="personal-header">
-        <div class="welcome-message">Bienvenue, {{ app.user.firstname }} {{ app.user.lastname }}</div>
-        <div class="logo-container">
-            <a href="{{ path('app_home_page') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="welcome-message">Bienvenue, {{ app.user.firstname }} {{ app.user.lastname }}</div>
+            <a href="{{ path('HomePage') }}" class="logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange Logo">
             </a>
+            <a href="{{ path('logout') }}" class="btn btn-secondary">Déconnexion</a>
         </div>
-        <a href="{{ path('logout') }}" class="logout-button">Déconnexion</a>
     </header>
 
     <main class="main-content">
-        <section class="ticket-section">
-            <div class="ticket-box">
-                <h2>Mes tickets en vente</h2>
-                {% for ticket in myTicketsForSale %}
-                    <div class="ticket">
-                        <p>Identifiant ticket : {{ ticket.id }}</p>
-                        <p>Le {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                        <p>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</p>
-                        <p>Prix : {{ ticket.price }} €</p>
-
-                        <form method="post" action="{{ path('delete_ticket', {'id': ticket.id}) }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
-                            <button type="submit" class="delete-button" data-type="ticket" data-id="{{ ticket.id }}">Supprimer</button>
-                        </form>
+        <div class="container">
+            <section class="ticket-section">
+                <div class="section-box">
+                    <h2 class="section-title">Mes tickets en vente</h2>
+                    <div class="tickets-grid">
+                        {% for ticket in myTicketsForSale %}
+                            <div class="ticket-card">
+                                <div class="ticket-header">
+                                    <span>{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <p><strong>Date :</strong> {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                                    <p><strong>Prix :</strong> {{ ticket.price }} €</p>
+                                    <p><strong>ID :</strong> {{ ticket.id }}</p>
+                                </div>
+                                <form method="post" action="{{ path('delete_ticket', {'id': ticket.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
+                                    <button type="submit" class="btn btn-danger delete-button" data-type="ticket" data-id="{{ ticket.id }}">Supprimer</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="no-data">Vous n'avez pas de tickets en vente.</p>
+                        {% endfor %}
                     </div>
-                {% else %}
-                    <p>Vous n'avez pas de tickets en vente.</p>
-                {% endfor %}
-            </div>
+                </div>
 
-            <div class="ticket-box">
-                <h2>Mes ventes</h2>
-                {% for selling in mySoldTickets %}
-                    <div class="ticket">
-                        <p>Ticket N° {{ selling.ticket.id }}</p>
-                        <p>Vendu le {{ selling.date|date('d/m/Y H:i') }}</p>
-                        <p>{{ selling.ticket.homeTeam }} vs {{ selling.ticket.awayTeam }}</p>
-                        <p>Vendu pour : {{ selling.ticket.price }} €</p>
+                <div class="section-box">
+                    <h2 class="section-title">Mes ventes</h2>
+                    <div class="tickets-grid">
+                        {% for selling in mySoldTickets %}
+                            <div class="ticket-card">
+                                <div class="ticket-header">
+                                    <span>{{ selling.ticket.homeTeam }} vs {{ selling.ticket.awayTeam }}</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <p><strong>Vendu le :</strong> {{ selling.date|date('d/m/Y H:i') }}</p>
+                                    <p><strong>Prix :</strong> {{ selling.ticket.price }} €</p>
+                                    <p><strong>ID :</strong> {{ selling.ticket.id }}</p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="no-data">Vous n'avez pas encore vendu de tickets.</p>
+                        {% endfor %}
                     </div>
-                {% else %}
-                    <p>Vous n'avez pas encore vendu de tickets.</p>
-                {% endfor %}
-            </div>
+                </div>
 
-            <div class="ticket-box">
-                <h2>Mes achats</h2>
-                {% for buying in myBoughtTickets %}
-                    <div class="ticket">
-                        <p>Ticket N° {{ buying.ticket.id }}</p>
-                        <p>Vendu le {{ buying.date|date('d/m/Y H:i') }}</p>
-                        <p>{{ buying.ticket.homeTeam }} vs {{ buying.ticket.awayTeam }}</p>
-                        <p>Acheté pour : {{ buying.ticket.price }} €</p>
+                <div class="section-box">
+                    <h2 class="section-title">Mes achats</h2>
+                    <div class="tickets-grid">
+                        {% for buying in myBoughtTickets %}
+                            <div class="ticket-card">
+                                <div class="ticket-header">
+                                    <span>{{ buying.ticket.homeTeam }} vs {{ buying.ticket.awayTeam }}</span>
+                                </div>
+                                <div class="ticket-body">
+                                    <p><strong>Acheté le :</strong> {{ buying.date|date('d/m/Y H:i') }}</p>
+                                    <p><strong>Prix :</strong> {{ buying.ticket.price }} €</p>
+                                    <p><strong>ID :</strong> {{ buying.ticket.id }}</p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="no-data">Vous n'avez pas encore acheté de tickets.</p>
+                        {% endfor %}
                     </div>
-                {% else %}
-                    <p>Vous n'avez pas encore acheté de tickets.</p>
-                {% endfor %}
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <section class="card-section">
-            <div class="card-box">
-                <h2>Mes Cartes Bancaires</h2>
-                {% if myCards|length > 0 %}
-                    {% for card in myCards %}
-                        <div class="card">
-                            <p>Numéro : **** **** **** {{ card.cardNumber|slice(-4) }}</p>
-                            <p>Expire le : {{ card.expirationDate|date('m/Y') }}</p>
-                            <p>Titulaire : {{ card.firstname }} {{ card.lastname }}</p>
-
-                            <form method="post" action="{{ path('delete_card', {'id': card.id}) }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
-                                <button type="submit" class="delete-button" data-type="card" data-id="{{ card.id }}">Supprimer</button>
-                            </form>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>Vous n'avez pas encore enregistré de carte bancaire.</p>
-                {% endif %}
-                
-                <a href="{{ path('app_card_details_new') }}" class="add-card-button">Ajouter une carte</a>
-            </div>
-        </section>
+            <section class="card-section">
+                <div class="section-box">
+                    <h2 class="section-title">Mes Cartes Bancaires</h2>
+                    <div class="cards-grid">
+                        {% for card in myCards %}
+                            <div class="card-item">
+                                <p><strong>Numéro :</strong> **** **** **** {{ card.cardNumber|slice(-4) }}</p>
+                                <p><strong>Expire le :</strong> {{ card.expirationDate|date('m/Y') }}</p>
+                                <p><strong>Titulaire :</strong> {{ card.firstname }} {{ card.lastname }}</p>
+                                <form method="post" action="{{ path('delete_card', {'id': card.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+                                    <button type="submit" class="btn btn-danger delete-button" data-type="card" data-id="{{ card.id }}">Supprimer</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <p class="no-data">Vous n'avez pas encore enregistré de carte bancaire.</p>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ path('app_card_details_new') }}" class="btn btn-primary">Ajouter une carte</a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <div id="confirmModal" class="modal">
@@ -100,53 +118,59 @@
             <form id="deleteForm" method="post">
                 <input type="hidden" name="_token" value="">
                 <div class="modal-buttons">
-                    <button type="submit" id="confirmDelete" class="confirm-button">Confirmer</button>
-                    <button type="button" class="cancel-button">Annuler</button>
+                    <button type="submit" id="confirmDelete" class="btn btn-danger">Confirmer</button>
+                    <button type="button" class="btn btn-secondary cancel-button">Annuler</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+{% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('confirmModal');
-    const deleteForm = document.getElementById('deleteForm');
-    const csrfTokenField = deleteForm.querySelector('input[name="_token"]');
-
-    function openModal(id, type, csrfToken) {
-        deleteForm.action = `/${type}/` + id;
-        csrfTokenField.value = csrfToken;
-        modal.style.display = 'block';
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-
-    // Gestion des boutons de suppression
-    document.querySelectorAll('.delete-button').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const id = this.getAttribute('data-id');
-            const type = this.getAttribute('data-type');
-            const csrfToken = this.previousElementSibling.value; // Récupère le CSRF token du formulaire
-
-            openModal(id, type, csrfToken);
-        });
-    });
-
-    // Gestion du bouton d'annulation
-    document.querySelector('.cancel-button').addEventListener('click', closeModal);
-
-    // Fermer la modal si on clique en dehors
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Le script est chargé et prêt.");
+        const modal = document.getElementById('confirmModal');
+        const deleteForm = document.getElementById('deleteForm');
+        const csrfTokenField = deleteForm.querySelector('input[name="_token"]');
+        
+        function openModal(id, type, csrfToken) {
+            // Configure l'action du formulaire avec l'URL correspondante
+            deleteForm.action = `/${type}/` + id;
+            csrfTokenField.value = csrfToken;
+            modal.style.display = 'block';
         }
-    };
-});
-</script>
-{% endblock %}
+        
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        
+        // Gestion des boutons de suppression
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                // Empêche la soumission du formulaire par défaut
+                event.preventDefault();
+                const id = this.getAttribute('data-id');
+                const type = this.getAttribute('data-type');
+                const csrfToken = this.previousElementSibling.value; // Récupère le CSRF token du formulaire
+        
+                // Ouvre la modale avec les informations du ticket à supprimer
+                openModal(id, type, csrfToken);
+            });
+        });
+        
+        // Gestion du bouton d'annulation de la modale
+        document.querySelector('.cancel-button').addEventListener('click', closeModal);
+        
+        // Fermer la modale si on clique en dehors de celle-ci
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    });
+    
+    </script>
 {% endblock %}

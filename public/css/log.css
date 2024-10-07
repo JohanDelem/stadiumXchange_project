@@ -1,38 +1,47 @@
+:root {
+    --primary-color: #ffc107;
+    --background-color: black;
+    --text-color: white;
+    --input-background: #333;
+}
+
 /* Style du body */
 body {
     font-family: Arial, sans-serif;
     background-image: url('../images/Background_image2.png');
     background-size: cover;
     background-position: center;
-    color: white;
+    background-attachment: fixed;
+    color: var(--text-color);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
-    width: auto;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-  
+    padding: 0 20px;
 }
 
-/* Header plein écran avec fond noir */
+/* Header */
 .header {
-    background-color: black;
-    width: auto;
-    padding: 10px 0;
-    text-align: center;
-}
-header .logo {
-    background-color: black;
+    background-color: var(--background-color);
     width: 100%;
     padding: 10px 0;
     text-align: center;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
-header .logo img {
-   
-    width: 200vh;
-  
+.header .logo img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80px;
 }
 
 /* Container pour centrer le formulaire */
@@ -41,22 +50,22 @@ header .logo img {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    flex-grow: 1;
     padding: 20px;
+    margin-top: 100px; /* Espace pour le header fixe */
 }
 
 /* Formulaire de login */
 .log-form {
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 60px 40px;
+    padding: 40px;
     border-radius: 10px;
-    width: 450px;
-    max-width: 100%;
-    margin-top: 80px; /* Ajoute de l'espace en haut pour le header fixe */
+    width: 100%;
+    max-width: 450px;
 }
 
 .log-form h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 20px;
 }
 
@@ -66,12 +75,12 @@ header .logo img {
 }
 
 .log-form a.create-account {
-    color: #fff;
+    color: var(--text-color);
     text-decoration: underline;
 }
 
 .log-form a.create-account:hover {
-    color: #ffc107; /* Couleur au survol */
+    color: var(--primary-color);
 }
 
 /* Style des champs du formulaire */
@@ -90,8 +99,8 @@ header .logo img {
     padding: 15px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: #333;
-    color: white;
+    background-color: var(--input-background);
+    color: var(--text-color);
     font-size: 1rem;
 }
 
@@ -103,15 +112,60 @@ header .logo img {
 button {
     width: 100%;
     padding: 15px;
-    background-color: black;
-    color: white;
+    background-color: var(--background-color);
+    color: var(--text-color);
     border: none;
     font-size: 1.2rem;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #ffc107;
+    background-color: var(--primary-color);
+}
+
+/* Media Queries pour la responsivité */
+@media screen and (max-width: 768px) {
+    .log-form {
+        padding: 30px;
+    }
+
+    .log-form h1 {
+        font-size: 1.8rem;
+    }
+
+    .form-group input {
+        padding: 12px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .log-form {
+        padding: 20px;
+    }
+
+    .log-form h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 1rem;
+    }
 }
