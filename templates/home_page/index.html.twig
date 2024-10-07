@@ -46,11 +46,19 @@
                         <div class="ticket-card">
                             <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="ticket-link">
                                 <div class="ticket-image">
-                                    {% if ticket.competition == 'ligue 1' %}
-                                        <img src="{{ asset('images/ligue1.jpg') }}" alt="Ligue 1">
-                                    {% elseif ticket.competition == 'Ligue des Champions' %}
-                                        <img src="{{ asset('images/ucl.jpg') }}" alt="UEFA Champions League">
-                                    {% endif %}
+                                {% if ticket.competition|lower == 'ligue 1' %}
+                                <img src="{{ asset('images/ligue1.jpg') }}" alt="Ligue 1">
+                            {% elseif ticket.competition == 'Ligue des Champions' %}
+                                <img src="{{ asset('images/ucl.jpg') }}" alt="UEFA Champions League">
+                            {% elseif ticket.competition == 'Europa League' %}
+                                <img src="{{ asset('images/europa_league.jpg') }}" alt="Europa League">
+                            {% elseif ticket.competition == 'Coupe de France' %}
+                                <img src="{{ asset('images/french_cup.jpg') }}" alt="Coupe de France">
+                            {% else %}
+                                <img src="{{ asset('images/default.jpg') }}" alt="Compétition inconnue">
+                            {% endif %}
+                            
+                            
                                 </div>
                                 <div class="ticket-header">
                                     <div class="team-match">
