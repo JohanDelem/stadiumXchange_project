@@ -1,31 +1,22 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Stadium Xchange{% endblock %}</title>
 
-     <!-- Lien vers le favicon -->
-     <link rel="icon" type="image/x-icon" href="{{ asset('images\favicon.png') }}">
-     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    {% block stylesheets %}
-    <!-- Lien vers fichier CSS -->
     
-     {% endblock %} 
-    
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% block stylesheets %}{% endblock %}
 </head>
 <body>
     <header>
-        <!-- Navbar  -->
+        <!-- Navbar -->
     </header>
 
     <main>
-        {% block body %}
-
-      {% endblock %}
-      {% block javascripts %}
-      {# inclusion éventuelle de JavaScript #}
-           {% endblock %}
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
     </main>
 
     <footer>
@@ -33,5 +24,3 @@
     </footer>
 </body>
 </html>
-
-

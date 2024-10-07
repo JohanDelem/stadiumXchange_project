@@ -1,8 +1,6 @@
-/* Updated Dark Mode CSS */
-
 :root {
     --primary-color: #FFD700; /* Gold color for headers and buttons */
-    --secondary-color: #FFFFFF; /* White for subheadings and text */
+    --secondary-color: #555555; /* White for subheadings and text */
     --card-background: #333333; /* Dark grey for card backgrounds */
     --shadow-color: rgba(0, 0, 0, 0.8); /* Darker shadow */
     --button-hover-bg: #555555; /* Button hover background */
@@ -95,7 +93,7 @@ button {
     color: #000; /* Dark text on buttons */
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    cursor: pointer; /* Change cursor to pointer */
+    
     transition: background-color 0.3s ease;
 }
 
@@ -103,6 +101,7 @@ button {
 button:hover {
     background-color: var(--button-hover-bg); /* Dark grey hover color */
     color: var(--secondary-color); /* White text on hover */
+    cursor: pointer; 
 }
 
 /* Responsive layout for smaller screens */
