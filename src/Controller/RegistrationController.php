@@ -44,7 +44,8 @@ class RegistrationController extends AbstractController
                 $security->login($user);
     
                 // Redirect to homepage 
-                return $this->redirectToRoute('app_home_page');  
+                return $this->redirectToRoute('app_home_page'); 
+                 
     
             } catch (\Exception $e) {
                 $logger->error('Error during user registration: ' . $e->getMessage());

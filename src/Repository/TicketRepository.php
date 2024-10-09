@@ -30,7 +30,7 @@ class TicketRepository extends ServiceEntityRepository
                 ->setParameter('competition', '%'.$myQuery.'%');
             }
             return $queryBuilder
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;

@@ -1,102 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ticket{% endblock %}
+{% block title %}Détails du Ticket - Stadium Xchange{% endblock %}
+
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/ticketDetail.css') }}">
+    {{ parent() }}
+    <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
     <style>
-        /* Style de la modal */
-        .modal {
-            display: none; /* Masqué par défaut */
-            position: fixed; /* Rester en place */
-            z-index: 1; /* Au-dessus des autres éléments */
-            left: 0;
-            top: 0;
-            width: 100%; /* Plein écran */
-            height: 100%; /* Plein écran */
-            overflow: auto; /* Activer le défilement si nécessaire */
-            background-color: rgba(0, 0, 0, 0.4); /* Fond semi-transparent */
-        }
-
-        /* Contenu de la modal */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* Centré */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Largeur de la modal */
-            max-width: 500px; /* Largeur max */
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between; /* Espacement entre les boutons */
+        body {
+            background-image: url('../images/Background_image2.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
     </style>
 {% endblock %}
+
 {% block body %}
-    <h1>Ticket</h1>
+<div class="min-h-screen bg-black bg-opacity-70 flex flex-col">
+    <header class="bg-black py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-yellow-500">Détails du Ticket</h1>
+            <a href="{{ path('HomePage') }}" class="text-white hover:text-yellow-500 transition duration-300">Retour à l'accueil</a>
+        </div>
+    </header>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Equipe à domicile</th>
-                <td>{{ ticket.homeTeam }}</td>
-            </tr>
-            <tr>
-                <th></th>
-                <td>VS</td>
-            </tr>
-            <tr>
-                <th>Equipe à l'extérieur</th>
-                <td>{{ ticket.awayTeam }}</td>
-            </tr>
-            <tr>
-                <th>Date et heure</th>
-                <td>{{ ticket.dateTime ? ticket.dateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ ticket.price }} euros</td>
-            </tr>
-            <tr>
-                <th>Stade</th>
-                <td>{{ ticket.stadium }}</td>
-            </tr>
-            <tr>
-                <th>Utilisateur</th>
-                <td>
-                    {% if ticket.owner %}
-                        <p>{{ ticket.owner.lastname }} {{ ticket.owner.firstname }}</p>
-                    {% else %}
-                        <p>Inconnu</p>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>Compétition</th>
-                <td>{{ ticket.competition }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="bg-gray-900 bg-opacity-80 rounded-lg shadow-xl p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h2 class="text-2xl font-bold text-yellow-500 mb-4">{{ ticket.homeTeam }} vs {{ ticket.awayTeam }}</h2>
+                    <p class="text-white"><span class="font-semibold">Date et heure :</span> {{ ticket.dateTime ? ticket.dateTime|date('d/m/Y H:i') : '' }}</p>
+                    <p class="text-white"><span class="font-semibold">Stade :</span> {{ ticket.stadium }}</p>
+                    <p class="text-white"><span class="font-semibold">Compétition :</span> {{ ticket.competition }}</p>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-2xl font-bold text-yellow-500"><span class="text-white">Prix :</span> {{ ticket.price }} €</p>
+                    <p class="text-white"><span class="font-semibold">Vendeur :</span> 
+                        {% if ticket.owner %}
+                            {{ ticket.owner.lastname }} {{ ticket.owner.firstname }}
+                        {% else %}
+                            Inconnu
+                        {% endif %}
+                    </p>
+                    <button class="buy-button bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-full transition duration-300 mt-4" data-ticket-id="{{ ticket.id }}">
+                        Acheter ce billet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    <button class="buy-button" data-ticket-id="{{ ticket.id }}">Acheter</button>
+    <footer class="bg-black text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Stadium Xchange - Tous droits réservés.</p>
+        </div>
+    </footer>
 
-    <div id="confirmModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h2>Confirmation d'achat</h2> 
-            <p>Let's goooo plus qu'un clic et le billet est à toi mon pote !</p> 
+    <!-- Modal de confirmation -->
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Confirmation d'achat</h2>
+            <p class="mb-6">Let's goooo plus qu'un clic et le billet est à toi !</p>
             <form id="deleteForm" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token('ticket_purchase_' ~ ticket.id) }}">
                 <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
-                <div class="modal-buttons">
-                    <button type="submit" id="confirmDelete" class="confirm-button">Mais bien sûr j'achète t'es un fada toi !</button> 
-                    <button type="button" class="cancel-button">Et weee la daronne a besoin de moi...</button> 
+                <div class="flex justify-end space-x-4">
+                    <button type="submit" id="confirmDelete" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">Confirmer</button>
+                    <button type="button" class="cancel-button bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Annuler</button>
                 </div>
             </form>
         </div>
     </div>
+</div>
+{% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('confirmModal');
@@ -104,25 +83,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const csrfTokenField = deleteForm.querySelector('input[name="_token"]');
 
     function openModal(id) {
-        // Met à jour l'action du formulaire pour acheter le ticket
         deleteForm.action = '{{ path('app_ticket_buy', {id: 'ticket_id'}) }}'.replace('ticket_id', id);
-        modal.style.display = 'block'; // Affiche la modal
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
     }
 
     function closeModal() {
-        modal.style.display = 'none'; // Ferme la modal
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
     }
 
-    // Ouvre la modal quand on clique sur le bouton "Acheter"
     document.querySelector('.buy-button').addEventListener('click', function() {
         const ticketId = this.getAttribute('data-ticket-id');
         openModal(ticketId);
     });
 
-    // Ferme la modal quand on clique sur le bouton d'annulation
     document.querySelector('.cancel-button').addEventListener('click', closeModal);
 
-    // Ferme la modal si on clique en dehors
     window.onclick = function(event) {
         if (event.target == modal) {
             closeModal();
@@ -130,5 +107,4 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
-{% endblock %}
 {% endblock %}

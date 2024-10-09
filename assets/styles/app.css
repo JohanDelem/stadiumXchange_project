@@ -1,3 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     background-color: skyblue;
 }
+
+.pagination {
+    @apply flex justify-center mt-6;
+}
+
+.pagination a, .pagination span {
+    @apply mx-1 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-blue-500 hover:text-white;
+}
+
+.pagination .current {
+    @apply bg-blue-500 text-white font-bold;
+}
+
+
+
+/* @tailwind base : Cette directive injecte les styles de base de Tailwind, tels que les styles de normalisation (reset CSS) et les styles par défaut (comme les polices et marges).
+
+@tailwind components : Injecte les composants utilitaires de Tailwind, comme les classes pour les grilles, les boutons, etc.
+
+@tailwind utilities : Injecte les classes utilitaires de Tailwind, comme p-4, text-center, etc. */
+
