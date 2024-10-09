@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Ticket;
 use App\Repository\SellingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
