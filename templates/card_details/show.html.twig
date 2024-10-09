@@ -2,41 +2,49 @@
 
 {% block title %}CardDetails{% endblock %}
 
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>CardDetails</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Card Details</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ card_detail.id }}</td>
-            </tr>
-            <tr>
-                <th>CardNumber</th>
-                <td>{{ card_detail.cardNumber }}</td>
-            </tr>
-            <tr>
-                <th>ExpirationDate</th>
-                <td>{{ card_detail.expirationDate ? card_detail.expirationDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Cryptogram</th>
-                <td>{{ card_detail.cryptogram }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ card_detail.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ card_detail.lastname }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th scope="row">Id</th>
+                    <td>{{ card_detail.id }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Card Number</th>
+                    <td>{{ card_detail.cardNumber }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Expiration Date</th>
+                    <td>{{ card_detail.expirationDate ? card_detail.expirationDate|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cryptogram</th>
+                    <td>{{ card_detail.cryptogram }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Firstname</th>
+                    <td>{{ card_detail.firstname }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Lastname</th>
+                    <td>{{ card_detail.lastname }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_card_details_index') }}">back to list</a>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ path('app_card_details_index') }}" class="btn btn-secondary">Back to List</a>
+            <a href="{{ path('app_card_details_edit', {'id': card_detail.id}) }}" class="btn btn-primary">Edit</a>
+        </div>
 
-    <a href="{{ path('app_card_details_edit', {'id': card_detail.id}) }}">edit</a>
-
-    {{ include('card_details/_delete_form.html.twig') }}
+        {{ include('card_details/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

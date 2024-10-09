@@ -2,25 +2,27 @@
 
 {% block title %}New Ticket{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/log.css') }}">
-{% endblock %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {# <link rel="stylesheet" href="{{ asset('css/style.css') }}"> #}
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
+    {% endblock %}
 {% block body %}
-<div class="container">
-    <header>
-<div class="logo">
-    <a href="{{ path('app_home_page') }}">
-        <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
-    </a>
-</div>
+<div class="container mt-4">
+    <header class="text-center mb-4">
+        <div class="logo">
+            <a href="{{ path('app_home_page') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange" class="img-fluid" style="max-width: 200px;">
+            </a>
+        </div>
     </header>
     <div class="log-container">
-     <div class="log-form">
-    <h1>Entrez les informations de votre ticket</h1>
-<div class="form-group">
-    {{ include('ticket/_form.html.twig') }}
-</div>
-    {# <a href="{{ path('app_ticket_index') }}">back to list</a> #}
-          </div>
-     </div>
+        <div class="log-form">
+            <h1 class="text-center">Entrez les informations de votre ticket</h1>
+            <div class="form-group">
+                {{ include('ticket/_form.html.twig') }}
+            </div>
+            {# <a href="{{ path('app_ticket_index') }}" class="btn btn-secondary">Retour à la liste</a> #}
+        </div>
     </div>
+</div>
 {% endblock %}

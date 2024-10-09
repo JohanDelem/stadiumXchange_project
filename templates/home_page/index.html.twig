@@ -5,92 +5,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {# <link rel="stylesheet" href="{{ asset('css/style.css') }}"> #}
+    {% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {# <link rel="stylesheet" href="{{ asset('css/style.css') }}"> #}
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
+    {% endblock %}
     <title>Stadium Xchange - Accueil</title>
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="container header-container">
-            <a href="{{ path('app_ticket_new') }}" class="btn btn-sell-ticket">Vendre un billet</a>
-            <a href="{{ path('HomePage') }}" class="logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange Logo">
+    <header class="site-header bg-dark py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Bouton "Vendre un billet" aligné à gauche -->
+            <a href="{{ path('app_ticket_new') }}" class="btn btn-warning">Vendre un billet</a>
+    
+            <!-- Logo au centre -->
+            <a href="{{ path('HomePage') }}" class="logo mx-auto">
+                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange Logo" class="img-fluid" style="max-height: 60px;">
             </a>
-            <nav class="user-nav">
+    
+            <!-- Navigation utilisateur à droite -->
+            <nav class="user-nav d-flex">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="{{ path('mySpace') }}" class="btn btn-primary">Mon compte</a>
+                    <a href="{{ path('mySpace') }}" class="btn btn-primary me-2">Mon compte</a>
                     <a href="{{ path('logout') }}" class="btn btn-secondary">Se déconnecter</a>
                 {% else %}
-                    <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
+                    <a href="{{ path('login') }}" class="btn btn-primary me-2">Se connecter</a>
                     <a href="{{ path('register') }}" class="btn btn-secondary">S'inscrire</a>
                 {% endif %}
             </nav>
         </div>
-    </header>
-
+    </header>    
     <main>
-        <section class="search-section">
+        <section class="search-section my-4">
             <div class="container">
-                <form action="#" method="GET" class="search-form">
-                    <input type="text" name="query" class="search-input" placeholder="Rechercher un match, une équipe...">
-                    <button type="submit" class="btn btn-search">Rechercher</button>
+                <form action="#" method="GET" class="d-flex justify-content-center">
+                    <input type="text" name="query" class="form-control me-2 rounded-start" placeholder="Rechercher un match, une équipe..." aria-label="Search">
+                    <button type="submit" class="btn btn-primary rounded-end" type="button">Rechercher</button>
                 </form>
             </div>
-        </section>
+        </section>        
 
-        <section class="tickets-section">
+        <section class="tickets-section py-5">
             <div class="container">
-                <h1 class="section-title">Billets Disponibles</h1>
-                <div class="tickets-grid">
+                <h1 class="text-center mb-4">Billets Disponibles</h1>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {% for ticket in tickets %}
-                        <div class="ticket-card">
-                            <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="ticket-link">
-                                <div class="ticket-image">
-                                {% if ticket.competition|lower == 'ligue 1' %}
-                                <img src="{{ asset('images/ligue1.jpg') }}" alt="Ligue 1">
-                            {% elseif ticket.competition == 'Ligue des Champions' %}
-                                <img src="{{ asset('images/ucl.jpg') }}" alt="UEFA Champions League">
-                            {% elseif ticket.competition == 'Europa League' %}
-                                <img src="{{ asset('images/europa_league.jpg') }}" alt="Europa League">
-                            {% elseif ticket.competition == 'Coupe de France' %}
-                                <img src="{{ asset('images/french_cup.jpg') }}" alt="Coupe de France">
-                            {% else %}
-                                <img src="{{ asset('images/default.jpg') }}" alt="Compétition inconnue">
-                            {% endif %}
-                            
-                            
-                                </div>
-                                <div class="ticket-header">
-                                    <div class="team-match">
-                                        <img src="{{teamsLogo[ticket.homeTeam]|default()}}" alt="{{ ticket.homeTeam }}" class="team-logo">
-                                        <span>{{ ticket.homeTeam }}</span>
-                                        <span class="vs">vs</span>
-                                        <span>{{ ticket.awayTeam }}</span>
-                                        <img src="{{teamsLogo[ticket.awayTeam]|default()}}" alt="{{ ticket.awayTeam }}" class="team-logo">
+                        <div class="col">
+                            <div class="card h-100 shadow">
+                                <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="text-decoration-none text-dark">
+                                    <img src="{% if ticket.competition|lower == 'ligue 1' %}{{ asset('images/ligue1.jpg') }}
+                                    {% elseif ticket.competition == 'Ligue des Champions' %}{{ asset('images/ucl.jpg') }}
+                                    {% elseif ticket.competition == 'Europa League' %}{{ asset('images/europa_league.jpg') }}
+                                    {% elseif ticket.competition == 'Coupe de France' %}{{ asset('images/french_cup.jpg') }}
+                                    {% else %}{{ asset('images/default.jpg') }}{% endif %}" 
+                                    class="card-img-top" alt="{{ ticket.competition }}">
+        
+                                    <div class="card-header bg-warning text-dark">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <img src="{{teamsLogo[ticket.homeTeam]|default()}}" alt="{{ ticket.homeTeam }}" class="rounded-circle" style="width: 30px; height: 30px;">
+                                            <span>{{ ticket.homeTeam }}</span>
+                                            <strong>vs</strong>
+                                            <span>{{ ticket.awayTeam }}</span>
+                                            <img src="{{teamsLogo[ticket.awayTeam]|default()}}" alt="{{ ticket.awayTeam }}" class="rounded-circle" style="width: 30px; height: 30px;">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="ticket-body">
-                                    <p><strong>Date et Heure :</strong> {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
-                                    <p><strong>Stade :</strong> {{ ticket.stadium }}</p>
-                                    <p class="ticket-price"><strong>Prix :</strong> {{ ticket.price }} €</p>
-                                    <p><strong>Vendeur :</strong> {% if ticket.owner %} {{ ticket.owner.lastname }} {{ ticket.owner.firstname }} {% else %} Inconnu {% endif %}</p>
-                                    <p><strong>Compétition :</strong> {{ ticket.competition }}</p>
-                                </div>
-                            </a>
+        
+                                    <div class="card-body">
+                                        <p><strong>Date et Heure :</strong> {{ ticket.dateTime|date('d/m/Y H:i') }}</p>
+                                        <p><strong>Stade :</strong> {{ ticket.stadium }}</p>
+                                        <p class="text-warning"><strong>Prix :</strong> {{ ticket.price }} €</p>
+                                        <p><strong>Vendeur :</strong> {% if ticket.owner %} {{ ticket.owner.lastname }} {{ ticket.owner.firstname }} {% else %} Inconnu {% endif %}</p>
+                                        <p><strong>Compétition :</strong> {{ ticket.competition }}</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     {% else %}
-                        <p class="no-tickets">Aucun billet n'est disponible pour le moment.</p>
+                        <div class="col text-center">
+                            <p class="text-muted fst-italic">Aucun billet n'est disponible pour le moment.</p>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2024 Stadium Xchange - Tous droits réservés.</p>
+    <footer class="site-footer bg-dark text-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Stadium Xchange - Tous droits réservés.</p>
         </div>
-    </footer>
+    </footer>    
 </body>
 
 </html>

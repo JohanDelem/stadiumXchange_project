@@ -2,57 +2,54 @@
 
 {% block title %}Log in!{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/log.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
 {% endblock %}
 {% block body %}
 
-
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="connect">
-            Vous etes connectez  {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+<div class="container mt-5">
+    <header class="text-center mb-4">
+        <div class="logo">
+            <a href="{{ path('app_home_page') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange" class="img-fluid" style="max-width: 200px;">
+            </a>
         </div>
-    {% endif %}
-<div class="container">
-    <header>
-<div class="logo">
-    <a href="{{ path('app_home_page') }}">
-        <img src="{{ asset('images/logo.png') }}" alt="Stadium Xchange">
-    </a>
-</div>
     </header>
-    <div class="log-container">
-     <div class="log-form">
-    <h1 >Connectez-vous</h1>
 
-<div class="form-group">
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-</div> 
-<div class="form-group">
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-</div> 
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        {% if app.user %}
+            <div class="alert alert-info">
+                Vous êtes connecté {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+            </div>
+        {% endif %}
 
-    <div class="form-group">
-        <label>
-            <input type="checkbox" name="_remember_me"> Se souvenir de moi
-        </label>
-    </div>
+        <h1 class="text-center">Connectez-vous</h1>
 
-    <button class="btn" type="submit">
-        Se connecter
-    </button>
-</form>
-      </div>
-     </div>
-    </div>
+        <div class="mb-3">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+        </div>
+
+        <div class="mb-3">
+            <label for="inputPassword" class="form-label">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="form-check mb-3">
+            <input type="checkbox" name="_remember_me" class="form-check-input" id="rememberMe">
+            <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">
+            Se connecter
+        </button>
+    </form>
+</div>
+
 {% endblock %}
