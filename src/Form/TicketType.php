@@ -29,6 +29,7 @@ class TicketType extends AbstractType
                     'Ligue des Champions' => 'Ligue des Champions',
                     'Europa League' => 'Europa League',
                     'Coupe de France' => 'Coupe de France',
+                    'Ligue des Nations' => 'Ligue des Nations'
                     // Ajoutez d'autres compétitions si nécessaire
                 ],
                 'placeholder' => 'Sélectionnez une compétition',
