@@ -32,7 +32,6 @@
 
     <main class="pt-20">
     <section class="bg-gray-200 py-8 bg-opacity-0">
-
             <div class="container mx-auto px-4">
                 <form action="#" method="GET" class="flex justify-center">
                     <input type="text" name="query" class="w-2/3 px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Rechercher un match, une équipe...">
@@ -65,11 +64,23 @@
                                 </div>
                                 <div class="bg-gray-800 text-white p-4">
                                     <div class="flex justify-between items-center">
-                                        <img src="{{teamsLogo[ticket.homeTeam]|default()}}" alt="{{ ticket.homeTeam }}" class="w-8 h-8">
+                                        {# Vérification et affichage du logo de l'équipe à domicile #}
+                                        {% if teamsLogo[ticket.homeTeam] is defined %}
+                                            <img src="{{ teamsLogo[ticket.homeTeam] }}" alt="{{ ticket.homeTeam }}" class="w-8 h-8">
+                                        {% else %}
+                                            <img src="{{ asset('images/default_logo.png') }}" alt="Logo par défaut" class="w-8 h-8">
+                                        {% endif %}
+                                        
                                         <span class="font-bold">{{ ticket.homeTeam }}</span>
                                         <span class="font-bold">vs</span>
                                         <span class="font-bold">{{ ticket.awayTeam }}</span>
-                                        <img src="{{teamsLogo[ticket.awayTeam]|default()}}" alt="{{ ticket.awayTeam }}" class="w-8 h-8">
+
+                                        {# Vérification et affichage du logo de l'équipe à l'extérieur #}
+                                        {% if teamsLogo[ticket.awayTeam] is defined %}
+                                            <img src="{{ teamsLogo[ticket.awayTeam] }}" alt="{{ ticket.awayTeam }}" class="w-8 h-8">
+                                        {% else %}
+                                            <img src="{{ asset('images/default_logo.png') }}" alt="Logo par défaut" class="w-8 h-8">
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="p-4">
@@ -84,14 +95,13 @@
                     {% else %}
                         <p class="col-span-full text-center text-gray-600 italic">Aucun billet n'est disponible pour le moment.</p>
                     {% endfor %}
-
                 </div>
             </div>
-                                <!-- Pagination -->
-                                <div class="pagination">{# css dans assets\styles\app.css #}
-                    
-                                {{ knp_pagination_render(tickets) }}
-                            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                {{ knp_pagination_render(tickets) }}
+            </div>
         </section>
     </main>
 
