@@ -18,6 +18,18 @@ body {
     @apply bg-blue-500 text-white font-bold;
 }
 
+.flash-link {
+    color: #ffdd57; /* Couleur jaune pour correspondre à ton style */
+    text-decoration: underline; /* Lien souligné */
+    font-weight: bold;
+    transition: color 0.3s ease; /* Transition douce */
+}
+
+.flash-link:hover {
+    color: #ffbb00; /* Changer légèrement la couleur au survol */
+    text-decoration: underline;
+}
+
 
 
 /* @tailwind base : Cette directive injecte les styles de base de Tailwind, tels que les styles de normalisation (reset CSS) et les styles par défaut (comme les polices et marges).

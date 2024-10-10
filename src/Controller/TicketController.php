@@ -60,7 +60,7 @@ final class TicketController extends AbstractController{
         ]);
     }
 
-
+    #[IsGranted('ROLE_USER')]
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
     public function show(Ticket $ticket): Response
     {
@@ -83,7 +83,7 @@ final class TicketController extends AbstractController{
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('mySpace', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('ticket/edit.html.twig', [
@@ -119,8 +119,21 @@ final class TicketController extends AbstractController{
         // Récupérer la première carte bancaire de l'utilisateur
         $cardDetails = $user->getCardDetails();
         if ($cardDetails->isEmpty()) {
-            throw new \Exception('Vous devez enregister une carte bancaire pour acheter un ticket.');
+            // Générer l'URL vers la page "Mon compte"
+            $url = $this->generateUrl('mySpace');
+        
+            // Utiliser un flash message pour informer l'utilisateur, avec le lien généré
+            $this->addFlash('error', 
+                'Vous devez enregistrer une carte bancaire pour acheter un ticket. 
+                Ajoutez une carte dans <a href="' . $url . '" class="flash-link">Mon compte</a>'
+            );
+        
+            // Retourne la même page, ici avec un message flash
+            return $this->render('ticket/show.html.twig', [
+                'ticket' => $ticket, // Renvoie le ticket pour le template
+            ]);
         }
+        
     
         $firstCard = $cardDetails->first();
     
