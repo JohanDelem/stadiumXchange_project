@@ -30,6 +30,7 @@
                             <p><strong>Prix :</strong> {{ ticket.price }} €</p>
                             <p><strong>ID :</strong> {{ ticket.id }}</p>
                             <button class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded delete-button" data-type="ticket" data-id="{{ ticket.id }}" data-token="{{ csrf_token('delete' ~ ticket.id) }}">Supprimer</button>
+                        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block">Éditer</a>
                         </div>
                     {% else %}
                         <p class="col-span-full text-gray-600 italic">Vous n'avez pas de tickets en vente.</p>
