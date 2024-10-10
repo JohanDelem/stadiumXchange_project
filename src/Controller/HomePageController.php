@@ -79,7 +79,7 @@ class HomePageController extends AbstractController
         $ticketsPaginator = $paginator->paginate(
             $tickets,
             $request->query->getInt('page', 1),
-            3
+            9
         );
 
         $allLogos = [];
@@ -92,7 +92,7 @@ class HomePageController extends AbstractController
             $homeTeamEn = $this->mapToEnglish($homeTeam);
             $awayTeamEn = $this->mapToEnglish($awayTeam);
 
-            // Obtenir les logos en anglais
+            // Obtenir les logos en anglais et mise ne cache local
             if (!array_key_exists($homeTeamEn, $allLogos)) {
                 $allLogos[$homeTeamEn] = $this->getTeamLogo($homeTeamEn, $httpClient);
             }
